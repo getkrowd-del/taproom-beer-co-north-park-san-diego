@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://getkrowd-del.github.io/taproom-beer-co-north-park-san-diego/sitemap.xml
+Sitemap: https://taphouse.getkrowd.com/sitemap.xml
