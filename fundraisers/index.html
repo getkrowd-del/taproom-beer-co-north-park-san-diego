@@ -228,7 +228,7 @@
       </div>
     </div>
     <div class="nav-logo">
-      <a href="http://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
     </div>
     <div class="nav-right">
       <a href="https://www.taproombeerco.com/reservations">Reservations</a>
@@ -237,7 +237,7 @@
       <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
       <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
     </div>
-    <a href="http://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    <a href="https://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
   </div>
 </nav>
 
@@ -284,44 +284,36 @@
   </div>
 </section>
 
-<!-- FORM — Contact Name field added, all fields properly mapped to sheet columns -->
 <section class="form-section" id="request">
   <div class="section-label">Submit Your Request</div>
   <h2 class="section-title" style="margin-bottom:48px;">Let's Make<br>It Happen.</h2>
   <div class="form-wrap">
-
     <div class="form-group">
       <label>Contact Name <span class="req">required</span></label>
       <input type="text" id="contactName" placeholder="Your full name" required>
     </div>
-
     <div class="form-group">
       <label>Organization Name <span class="req">required</span></label>
       <input type="text" id="orgName" placeholder="Name of your organization or charity" required>
     </div>
-
     <div class="form-group">
       <label>Email <span class="req">required</span></label>
       <input type="email" id="email" placeholder="your@organization.org" required>
     </div>
-
     <label class="checkbox-item">
       <input type="checkbox" id="newsSignup">
       <span>Sign me up for TapRoom news and updates</span>
     </label>
-
     <div class="form-group">
       <label>Tell Us About Your Organization & Event <span class="req">required</span></label>
       <textarea id="message" placeholder="Describe your organization, your cause, and what you're hoping to accomplish with the fundraiser..."></textarea>
     </div>
-
     <div class="form-group">
       <label>Proposed Dates & Times</label>
       <input type="text" id="dates" placeholder="e.g. Weekday evenings in July, or a specific date">
     </div>
-
     <button class="btn-submit" id="submitBtn" onclick="submitFundraiser()">Submit Request</button>
-    <div class="form-error" id="formError">Please fill in all required fields (Contact Name, Organization, Email, and Message).</div>
+    <div class="form-error" id="formError">Please fill in all required fields (Contact Name, Organization Name, Email, and Message).</div>
     <div class="form-success" id="formSuccess">
       <h3>Request Received! 🤝</h3>
       <p>Thanks for reaching out — we love supporting great causes. The TapRoom team will review your request and follow up within 2–3 business days to discuss details and find the right date.</p>
@@ -364,7 +356,6 @@
   </div>
 </footer>
 
-<!-- CHAT WIDGET — same as homepage -->
 <div id="tr-chat-wrapper">
   <div id="tr-chat-popout">
     <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
@@ -376,7 +367,6 @@
 </div>
 
 <script>
-/* ---- FORM SUBMIT ---- */
 function submitFundraiser() {
   var contactName = document.getElementById('contactName').value.trim();
   var orgName     = document.getElementById('orgName').value.trim();
@@ -384,30 +374,19 @@ function submitFundraiser() {
   var message     = document.getElementById('message').value.trim();
   var errEl       = document.getElementById('formError');
   errEl.style.display = 'none';
-
-  if (!contactName || !orgName || !email || !message) {
-    errEl.style.display = 'block';
-    return;
-  }
-
+  if (!contactName || !orgName || !email || !message) { errEl.style.display = 'block'; return; }
   var news  = document.getElementById('newsSignup').checked ? 'Yes' : 'No';
   var dates = document.getElementById('dates').value.trim();
   var btn   = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Submitting...';
-
-  /* Sheet columns (must match header row exactly):
-     A: Name and Organization  B: Email  C: Sign Up for News and Updates
-     D: Message  E: Proposed Dates & Times  F: Submission Date
-     NEW G: Contact Name  — but we'll put Contact Name in A so the sheet stays clean.
-     Actually we send each field keyed to its column header so the webhook maps correctly. */
+  btn.disabled = true; btn.textContent = 'Submitting...';
   var payload = {
     contactEmail: email,
     contactName:  contactName,
     contactPhone: '',
     data: {
-      'Name and Organization':        orgName,
       'Contact Name':                 contactName,
+      'Organization Name':            orgName,
+      'Name and Organization':        contactName + ' — ' + orgName,
       'Email':                        email,
       'Sign Up for News and Updates': news,
       'Message':                      message,
@@ -415,58 +394,26 @@ function submitFundraiser() {
       'Submission Date':              new Date().toLocaleDateString('en-US')
     }
   };
-
   fetch('https://paymegpt.com/api/webhooks/flow/3248/89e08b7f2358a6eeb9a61ce484cb9309c30e56feb11a5c730453f727af704014', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
   })
-  .then(function() {
-    document.getElementById('formSuccess').style.display = 'block';
-    btn.style.display = 'none';
-    ['contactName','orgName','email','message','dates'].forEach(function(id){ document.getElementById(id).value=''; });
-    document.getElementById('newsSignup').checked = false;
+  .then(function(){
+    document.getElementById('formSuccess').style.display='block'; btn.style.display='none';
+    ['contactName','orgName','email','message','dates'].forEach(function(id){document.getElementById(id).value='';});
+    document.getElementById('newsSignup').checked=false;
   })
-  .catch(function() {
-    btn.disabled = false;
-    btn.textContent = 'Submit Request';
-    errEl.textContent = 'Something went wrong. Please try again or email mgmt@taproombeerco.com directly.';
-    errEl.style.display = 'block';
+  .catch(function(){
+    btn.disabled=false; btn.textContent='Submit Request';
+    errEl.textContent='Something went wrong. Please try again or email mgmt@taproombeerco.com directly.'; errEl.style.display='block';
   });
 }
-
-/* ---- CHAT WIDGET ---- */
-window.PayMeGPTConfig = { widgetId:'64168788', primaryColor:'#c5e600', position:'bottom-right', autoOpen:false, hideLauncher:true };
-var chatOpen = false, dismissed = false;
-function dismissPopout() {
-  var p = document.getElementById('tr-chat-popout');
-  p.classList.add('hide');
-  setTimeout(function(){ p.style.display='none'; }, 250);
-  dismissed = true;
-}
-function toggleChat() {
-  if (!dismissed) dismissPopout();
-  if (window.PayMeGPT) { chatOpen ? (window.PayMeGPT.close(), chatOpen=false) : (window.PayMeGPT.open(), chatOpen=true); }
-}
-function nukeDefault() {
-  document.querySelectorAll('body > div').forEach(function(el){
-    if (el.id==='tr-chat-wrapper') return;
-    var s = window.getComputedStyle(el);
-    var inline = el.getAttribute('style')||'';
-    if ((s.position==='fixed'||inline.includes('fixed'))) {
-      var rect = el.getBoundingClientRect();
-      if (rect.width<100 && rect.height<100 && rect.width>0) {
-        var bg=s.backgroundColor||''; var br=s.borderRadius||'';
-        if (br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')) {
-          el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';
-        }
-      }
-    }
-  });
-}
-nukeDefault();
-setInterval(nukeDefault, 150);
-new MutationObserver(function(){ nukeDefault(); }).observe(document.documentElement, {childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
 </script>
 <script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
 </body>
