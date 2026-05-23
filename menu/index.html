@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Food Menu | TapRoom Beer Co. – North Park San Diego</title>
+<meta property="og:title" content="Food Menu | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Food Menu | TapRoom Beer Co. – North Park San Diego" />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4265');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='HfNFQgZ28';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://www.taproombeerco.com/beer">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://www.taproombeerco.com/beer">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://www.taproombeerco.com/wines">Wines</a>
+          <a href="https://www.taproombeerco.com/kegs">Kegs</a>
+          <a href="https://www.taproombeerco.com/partners">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/" style="color:var(--lime)!important;">Food</a>
+      <a href="https://www.taproombeerco.com/coffee">Coffee</a>
+      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.taproombeerco.com/reservations">Reservations</a>
+      <a href="https://www.taproombeerco.com/private-events">Private Events</a>
+      <a href="https://www.taproombeerco.com/our-story">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+    <a href="https://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="section-label">Fresh From Our Kitchen</div>
+      <h1>Food<br><em>Menu</em></h1>
+      <p class="hero-sub" style="margin-top:16px;">Craft pizza, burgers, burritos & starters — built to pair with 50 rotating taps. North Park's neighborhood brewery kitchen.</p>
+    </div>
+    <div class="hero-actions">
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="btn-lime" target="_blank">Order Online</a>
+      <a href="https://www.taproombeerco.com/reservations" class="btn-outline">Reserve a Table</a>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY FILTER BAR -->
+<div class="cat-bar-wrap">
+  <div class="cat-bar" id="catBar">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<!-- MENU CONTENT -->
+<div class="menu-body" id="menuBody">
+  <div class="menu-loading" id="menuLoading">
+    <div class="spinner"></div>
+    <p>Loading the menu...</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">North Park</div>
+      <div class="footer-info">2000 El Cajon Blvd<br>San Diego, CA 92104<br><a href="tel:+16195397738">(619) 539-7738</a><br>Mon–Fri: 11am–11pm<br>Sat & Sun: 10am–11pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://www.taproombeerco.com/beer">Beer List</a><br>
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://www.taproombeerco.com/brunch">Brunch</a><br>
+        <a href="https://www.taproombeerco.com/reservations">Reservations</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a><br>
+        <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>🍺 <strong>Hungry?</strong> Ask me about today's specials or what pairs best with your beer!</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()" title="Chat with TapRoom!">
+    <img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat">
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CATEGORY EMOJI MAP
+   ============================================================ */
+var CAT_EMOJI = {
+  'starters':       '🧅',
+  'salads':         '🥗',
+  'pizzas':         '🍕',
+  'burgers':        '🍔',
+  'spicy burritos': '🌯',
+  'desserts':       '🍪',
+  'parfaits':       '🍓',
+  'sides':          '🍟',
+  'sandwiches':     '🥪',
+  'entrees':        '🍽️',
+  'soup':           '🍲',
+  'wings':          '🍗'
+};
+
+function catEmoji(cat) {
+  return CAT_EMOJI[cat.toLowerCase()] || '🍽️';
+}
+
+/* ============================================================
+   LABEL BADGES
+   ============================================================ */
+function renderLabels(labelStr, isNew) {
+  var html = '';
+  if (isNew) html += '<span class="label-badge label-new">New</span>';
+  if (!labelStr) return html;
+  var parts = labelStr.split(',');
+  parts.forEach(function(l) {
+    var t = l.trim();
+    if (!t) return;
+    if (t.toLowerCase().indexOf('gluten') !== -1) html += '<span class="label-badge label-gf">GF</span>';
+    else if (t.toLowerCase() === 'vegan') html += '<span class="label-badge label-vegan">Vegan</span>';
+    else if (t.toLowerCase().indexOf('vegetarian') !== -1) html += '<span class="label-badge label-veg">Vegetarian</span>';
+    else html += '<span class="label-badge label-gf">'+t+'</span>';
+  });
+  return html;
+}
+
+/* ============================================================
+   RENDER MENU
+   ============================================================ */
+function renderMenu(items) {
+  // Group by category, preserving natural API order
+  var catOrder = [];
+  var catMap = {};
+  items.forEach(function(item) {
+    // Skip VIP Secret items from public menu
+    if (item.menuType && item.menuType.toLowerCase().indexOf('vip') !== -1) return;
+    var cat = item.category || 'Other';
+    if (!catMap[cat]) { catMap[cat] = []; catOrder.push(cat); }
+    catMap[cat].push(item);
+  });
+
+  var body = document.getElementById('menuBody');
+  var catBar = document.getElementById('catBar');
+
+  // Build "All" button
+  var allBtn = document.createElement('button');
+  allBtn.className = 'cat-btn active';
+  allBtn.textContent = '🍽️  All';
+  allBtn.dataset.cat = 'all';
+  allBtn.onclick = function() { filterCat('all'); };
+  catBar.appendChild(allBtn);
+
+  // Build category buttons
+  catOrder.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.textContent = catEmoji(cat) + '  ' + cat;
+    btn.dataset.cat = cat;
+    btn.onclick = function() { filterCat(cat); };
+    catBar.appendChild(btn);
+  });
+
+  // Clear loading
+  body.innerHTML = '';
+
+  // Build category sections
+  catOrder.forEach(function(cat) {
+    var sec = document.createElement('div');
+    sec.className = 'menu-category';
+    sec.dataset.cat = cat;
+
+    var items = catMap[cat];
+    var headingHtml = '<div class="cat-heading"><span class="cat-heading-emoji">'+catEmoji(cat)+'</span><h2 class="cat-heading-name">'+cat+'</h2><span class="cat-heading-count">'+items.length+' item'+(items.length!==1?'s':'')+'</span></div>';
+
+    var gridHtml = '<div class="items-grid">';
+    items.forEach(function(item) {
+      var labelHtml = renderLabels(item.labels, item.isNew);
+      var imgHtml = item.image
+        ? '<img src="'+item.image+'" alt="'+item.name+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=item-img-placeholder>'+catEmoji(cat)+'</div>\'">'
+        : '<div class="item-img-placeholder">'+catEmoji(cat)+'</div>';
+      var priceHtml = item.price > 0
+        ? '<span class="item-price">$'+item.price.toFixed(2)+'</span>'
+        : '<span class="item-price-free">Ask Us</span>';
+
+      gridHtml += '<div class="item-card">';
+      gridHtml += '<div class="item-img-wrap">'+imgHtml+'</div>';
+      gridHtml += '<div class="item-body">';
+      if (labelHtml) gridHtml += '<div class="item-labels">'+labelHtml+'</div>';
+      gridHtml += '<div class="item-name">'+item.name+'</div>';
+      gridHtml += '<p class="item-desc">'+item.description+'</p>';
+      gridHtml += '<div class="item-footer">'+priceHtml+'</div>';
+      gridHtml += '</div></div>';
+    });
+    gridHtml += '</div>';
+
+    sec.innerHTML = headingHtml + gridHtml;
+    body.appendChild(sec);
+  });
+}
+
+/* ============================================================
+   FILTER BY CATEGORY
+   ============================================================ */
+function filterCat(cat) {
+  // Update buttons
+  document.querySelectorAll('.cat-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.cat === cat);
+  });
+  // Show/hide sections
+  document.querySelectorAll('.menu-category').forEach(function(sec) {
+    if (cat === 'all' || sec.dataset.cat === cat) {
+      sec.style.display = '';
+    } else {
+      sec.style.display = 'none';
+    }
+  });
+  // Scroll to just below the sticky bars
+  window.scrollTo({ top: document.querySelector('.cat-bar-wrap').getBoundingClientRect().bottom + window.scrollY - 76, behavior: 'smooth' });
+}
+
+/* ============================================================
+   FETCH FROM KROWD API
+   ============================================================ */
+var API_KEY = 'krwd_fd6a9bdbc7c6adb43d3f6f1ba812c4a2365f9ea520de24f81c3969e91ac';
+
+function loadMenu() {
+  fetch('https://api.getkrowd.com/v1/menu?apiKey=' + API_KEY)
+    .then(function(r) {
+      if (!r.ok) throw new Error('API error ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      var items = Array.isArray(data) ? data : (data.items || data.menu || data.data || []);
+      if (!items.length) throw new Error('No items');
+      renderMenu(items);
+    })
+    .catch(function(err) {
+      console.warn('Krowd API fetch failed, using cached data:', err);
+      renderMenu(CACHED_MENU);
+    });
+}
+
+/* ============================================================
+   CACHED MENU (fallback if API is unavailable)
+   ============================================================ */
+var CACHED_MENU = [
+  {id:17,name:"Cauliflower Wings",category:"Starters",price:9,description:"Beer-battered cauliflower, house buffalo, house ranch.",image:"https://krowdimg.b-cdn.net/1071_20251111104834.jpg",labels:"Gluten-Free,Vegan",isNew:0,menuType:"Menu"},
+  {id:18,name:"Mac N Cheese",category:"Starters",price:9,description:"Noodles, cheddar cheese, mozzarella, basil, bread crumbs.",image:"https://krowdimg.b-cdn.net/1071_20251111104947.jpg",labels:"",isNew:0,menuType:"Menu"},
+  {id:19,name:"Cheesy Bread",category:"Starters",price:6,description:"House-made breadsticks, mozzarella, parmesan, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111105136.jpg",labels:"",isNew:0,menuType:"Menu"},
+  {id:20,name:"Buffalo Chicken Dip",category:"Starters",price:14,description:"Cream cheese, chicken, cheddar, tortilla chips.",image:"https://krowdimg.b-cdn.net/1071_20251111105320.jpg",labels:"",isNew:0,menuType:"Menu"},
+  {id:21,name:"Caesar",category:"Salads",price:5,description:"Romaine, house Caesar dressing, house croutons, fresh parmesan.",image:"https://krowdimg.b-cdn.net/1071_20251111105622.jpg",labels:"",isNew:0,menuType:"Menu"},
+  {id:23,name:"Fruit and Nut",category:"Salads",price:7,description:"Mixed greens, kale, balsamic vinaigrette, seasonal fruit, dried cherries, candied nuts, feta. Full size comes with toasted baguette.",image:"https://krowdimg.b-cdn.net/1071_20251111105900.jpg",labels:"",isNew:0,menuType:"Menu"},
+  {id:25,name:"House",category:"Salads",price:5,description:"Mixed greens, balsamic vinaigrette, tomatoes, cucumbers, red onions.",image:"https://krowdimg.b-cdn.net/1071_20251111110058.jpg",labels:"Vegetarian",isNew:0,menuType:"Menu"},
+  {id:27,name:"Yard Bird",category:"Pizzas",price:10,description:"Beer BBQ sauce, mozzarella, red onion, potato chips, green onion, chicken. Served with house-made chips.",image:"https://krowdimg.b-cdn.net/1071_20251111110801.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:29,name:"The Beef",category:"Pizzas",price:12,description:"House-made creamy horseradish sauce, beef, mozzarella, red onion, spring mix.",image:"https://krowdimg.b-cdn.net/1071_20251111110832.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:30,name:"Lost Dipper",category:"Pizzas",price:10.5,description:"Garlic oil, mozzarella, fontina, caramelized onion, sliced beef, creamy horseradish sauce, chives.",image:"https://krowdimg.b-cdn.net/1071_20251111110910.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:32,name:"The Sami",category:"Pizzas",price:12,description:"Pesto mayo, artichoke hearts, caramelized onion, roasted red peppers, mozzarella, kale.",image:"https://krowdimg.b-cdn.net/1071_20251111111006.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:33,name:"Detective Stabler",category:"Pizzas",price:9.5,description:"Garlic oil, mozzarella, smashed potatoes, bacon, house ranch, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111111156.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:35,name:"Veggie Romantic",category:"Pizzas",price:10,description:"Pomodoro, garlic, mozzarella, kale, mushroom medley, rotating seasonal veggies, cherry tomatoes, garlic oil, salt, pepper.",image:"https://krowdimg.b-cdn.net/1071_20251111115115.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:37,name:"Idahomie",category:"Pizzas",price:11,description:"Garlic oil, mozzarella, feta, roasted red peppers, smashed potatoes, Basque chorizo, chili oil, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111115150.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:39,name:"Cheese",category:"Pizzas",price:7,description:"Pomodoro, mozzarella, parmesan, garlic, fontina.",image:"https://krowdimg.b-cdn.net/1071_20251111115239.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:47,name:"Margherita",category:"Pizzas",price:8,description:"Pomodoro, fresh mozzarella, basil, basil oil, salt.",image:"https://krowdimg.b-cdn.net/1071_20251111115357.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:49,name:"Mushroom Kingdom",category:"Pizzas",price:11.5,description:"Mushroom sauce, mozzarella, fontina, garlic confit, mushroom medley, ghost town porter chili.",image:"https://krowdimg.b-cdn.net/1071_20251111115443.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:51,name:"Hawaiian Mushroom",category:"Pizzas",price:9,description:"Pomodoro, mozzarella, pineapple, balsamic drizzle, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111115524.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:71,name:"Smash Burger",category:"Burgers",price:14,description:"Velveeta cheese, lettuce, tomato, onion, smash sauce.",image:"https://krowdimg.b-cdn.net/1071_20251119185650.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:72,name:"Peanut Butter Bacon Burger",category:"Burgers",price:15.5,description:"Bacon jam, peanut butter, Velveeta.",image:"https://krowdimg.b-cdn.net/1071_20251119185604.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:73,name:"Volcano Burger",category:"Burgers",price:16.99,description:"5.3 oz beef burger, chili Volcano sauce, jalapeños, lettuce, tomato, fresh onion, cheddar cheese.",image:"https://krowdimg.b-cdn.net/menuItem_1071_20251119185445.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:53,name:"OG",category:"Spicy Burritos",price:9.5,description:"Garlic oil, mozzarella, fontina, pickled jalapeno, chili flake, buffalo sauce, green onion.",image:"https://krowdimg.b-cdn.net/1071_20251111112721.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:54,name:"Lucky Local",category:"Spicy Burritos",price:9,description:"Braised pork, potato, egg, cheese, fried shallot, lime crema.",image:"https://krowdimg.b-cdn.net/1071_20251111114523.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:55,name:"The Roman",category:"Spicy Burritos",price:9,description:"House-cured bacon, potato, egg, cheese, sun-dried tomato, aioli.",image:"https://krowdimg.b-cdn.net/1071_20251111115024.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:56,name:"Miss June",category:"Spicy Burritos",price:9,description:"Fajita veggies, egg, potato, cheese, arugula, lime crema.",image:"https://krowdimg.b-cdn.net/1071_20251111114608.jpg",labels:"",isNew:0,menuType:"Menu"},
+  {id:52,name:"Iron Cookie",category:"Desserts",price:7,description:"House-made chocolate chip cookie, STIL ice cream, beer caramel drizzle.",image:"https://krowdimg.b-cdn.net/1071_20251111111802.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:57,name:"Highland Honey",category:"Parfaits",price:9,description:"Lemon curd, yogurt, granola, meringue crumble, hot honey, blueberry, mint, powdered sugar.",image:"https://krowdimg.b-cdn.net/1071_20251111112417.jpeg",labels:"",isNew:0,menuType:"Menu"},
+  {id:58,name:"Bogus Bliss",category:"Parfaits",price:9,description:"Strawberry compote, yogurt, granola, meringue crumble, hot honey, fresh strawberry, mint, powdered sugar.",image:"https://krowdimg.b-cdn.net/1071_20251111112520.jpeg",labels:"",isNew:0,menuType:"Menu"}
+];
+
+/* ============================================================
+   CHAT WIDGET
+   ============================================================ */
+window.PayMeGPTConfig = {widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen = false, dismissed = false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+
+/* BOOT */
+loadMenu();
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
