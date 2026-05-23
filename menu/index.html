@@ -201,7 +201,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <div class="nav-left">
@@ -215,7 +214,7 @@
           <a href="https://www.taproombeerco.com/partners">Find Our Beer</a>
         </div>
       </div>
-      <a href="https://taphouse.getkrowd.com/menu/" style="color:var(--lime)!important;">Food</a>
+      <a href="https://taphouse.getkrowd.com/menu/" class="nav-active">Food</a>
       <a href="https://www.taproombeerco.com/coffee">Coffee</a>
       <a href="https://www.taproombeerco.com/brunch">Brunch</a>
       <div class="dropdown">
@@ -242,7 +241,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="page-hero">
   <div class="page-hero-inner">
     <div>
@@ -257,14 +255,10 @@
   </div>
 </section>
 
-<!-- CATEGORY FILTER BAR -->
 <div class="cat-bar-wrap">
-  <div class="cat-bar" id="catBar">
-    <!-- injected by JS -->
-  </div>
+  <div class="cat-bar" id="catBar"></div>
 </div>
 
-<!-- MENU CONTENT -->
 <div class="menu-body" id="menuBody">
   <div class="menu-loading" id="menuLoading">
     <div class="spinner"></div>
@@ -272,7 +266,6 @@
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div>
@@ -308,7 +301,6 @@
   </div>
 </footer>
 
-<!-- CHAT WIDGET -->
 <div id="tr-chat-wrapper">
   <div id="tr-chat-popout">
     <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
@@ -321,209 +313,134 @@
 
 <script>
 /* ============================================================
-   CATEGORY EMOJI MAP
+   KROWD v3 API — TapRoom North Park  companyId=1071
    ============================================================ */
+var KROWD_MENU_URL = 'https://api.getkrowd.com/v3/menu/index.cfm?companyId=1071&apiKey=krwd_55d0f6ea46590c34c08265bdf0fabe6a3296b6546f0a7ee2c500623ad31';
+
 var CAT_EMOJI = {
-  'starters':       '🧅',
-  'salads':         '🥗',
-  'pizzas':         '🍕',
-  'burgers':        '🍔',
-  'spicy burritos': '🌯',
-  'desserts':       '🍪',
-  'parfaits':       '🍓',
-  'sides':          '🍟',
-  'sandwiches':     '🥪',
-  'entrees':        '🍽️',
-  'soup':           '🍲',
-  'wings':          '🍗'
+  'starters':'🧅','salads':'🥗','pizzas':'🍕','burgers':'🍔',
+  'spicy burritos':'🌯','desserts':'🍪','parfaits':'🍓',
+  'sides':'🍟','sandwiches':'🥪','entrees':'🍽️','soup':'🍲','wings':'🍗'
 };
+function emoji(cat){ return CAT_EMOJI[cat.toLowerCase()] || '🍽️'; }
 
-function catEmoji(cat) {
-  return CAT_EMOJI[cat.toLowerCase()] || '🍽️';
-}
-
-/* ============================================================
-   LABEL BADGES
-   ============================================================ */
-function renderLabels(labelStr, isNew) {
-  var html = '';
-  if (isNew) html += '<span class="label-badge label-new">New</span>';
-  if (!labelStr) return html;
-  var parts = labelStr.split(',');
-  parts.forEach(function(l) {
+function renderLabels(labels, isNew) {
+  var h = isNew ? '<span class="label-badge label-new">New</span>' : '';
+  if (!labels) return h;
+  labels.split(',').forEach(function(l){
     var t = l.trim();
     if (!t) return;
-    if (t.toLowerCase().indexOf('gluten') !== -1) html += '<span class="label-badge label-gf">GF</span>';
-    else if (t.toLowerCase() === 'vegan') html += '<span class="label-badge label-vegan">Vegan</span>';
-    else if (t.toLowerCase().indexOf('vegetarian') !== -1) html += '<span class="label-badge label-veg">Vegetarian</span>';
-    else html += '<span class="label-badge label-gf">'+t+'</span>';
+    var lo = t.toLowerCase();
+    if (lo.indexOf('gluten') !== -1) h += '<span class="label-badge label-gf">GF</span>';
+    else if (lo === 'vegan') h += '<span class="label-badge label-vegan">Vegan</span>';
+    else if (lo.indexOf('vegetarian') !== -1) h += '<span class="label-badge label-veg">Vegetarian</span>';
+    else h += '<span class="label-badge label-gf">'+t+'</span>';
   });
-  return html;
+  return h;
 }
 
-/* ============================================================
-   RENDER MENU
-   ============================================================ */
 function renderMenu(items) {
-  // Group by category, preserving natural API order
-  var catOrder = [];
-  var catMap = {};
+  var catOrder = [], catMap = {};
   items.forEach(function(item) {
-    // Skip VIP Secret items from public menu
-    if (item.menuType && item.menuType.toLowerCase().indexOf('vip') !== -1) return;
+    if (!item || !item.name) return;
+    // skip VIP secret items
+    var mt = (item.menuType||'').toLowerCase();
+    if (mt.indexOf('vip') !== -1 || mt.indexOf('secret') !== -1) return;
     var cat = item.category || 'Other';
     if (!catMap[cat]) { catMap[cat] = []; catOrder.push(cat); }
     catMap[cat].push(item);
   });
 
   var body = document.getElementById('menuBody');
-  var catBar = document.getElementById('catBar');
+  var bar  = document.getElementById('catBar');
+  body.innerHTML = '';
+  bar.innerHTML  = '';
 
-  // Build "All" button
+  // All button
   var allBtn = document.createElement('button');
   allBtn.className = 'cat-btn active';
-  allBtn.textContent = '🍽️  All';
+  allBtn.innerHTML = '🍽️&nbsp;&nbsp;All';
   allBtn.dataset.cat = 'all';
-  allBtn.onclick = function() { filterCat('all'); };
-  catBar.appendChild(allBtn);
+  allBtn.onclick = function(){ filterCat('all'); };
+  bar.appendChild(allBtn);
 
-  // Build category buttons
   catOrder.forEach(function(cat) {
     var btn = document.createElement('button');
     btn.className = 'cat-btn';
-    btn.textContent = catEmoji(cat) + '  ' + cat;
+    btn.innerHTML = emoji(cat)+'&nbsp;&nbsp;'+cat;
     btn.dataset.cat = cat;
-    btn.onclick = function() { filterCat(cat); };
-    catBar.appendChild(btn);
-  });
+    btn.onclick = function(){ filterCat(cat); };
+    bar.appendChild(btn);
 
-  // Clear loading
-  body.innerHTML = '';
-
-  // Build category sections
-  catOrder.forEach(function(cat) {
     var sec = document.createElement('div');
     sec.className = 'menu-category';
     sec.dataset.cat = cat;
 
-    var items = catMap[cat];
-    var headingHtml = '<div class="cat-heading"><span class="cat-heading-emoji">'+catEmoji(cat)+'</span><h2 class="cat-heading-name">'+cat+'</h2><span class="cat-heading-count">'+items.length+' item'+(items.length!==1?'s':'')+'</span></div>';
+    var count = catMap[cat].length;
+    var html = '<div class="cat-heading">'
+      + '<span class="cat-heading-emoji">'+emoji(cat)+'</span>'
+      + '<h2 class="cat-heading-name">'+cat+'</h2>'
+      + '<span class="cat-heading-count">'+count+' item'+(count!==1?'s':'')+'</span>'
+      + '</div><div class="items-grid">';
 
-    var gridHtml = '<div class="items-grid">';
-    items.forEach(function(item) {
-      var labelHtml = renderLabels(item.labels, item.isNew);
+    catMap[cat].forEach(function(item) {
+      var labelHtml = renderLabels(item.labels||'', item.isNew||0);
       var imgHtml = item.image
-        ? '<img src="'+item.image+'" alt="'+item.name+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=item-img-placeholder>'+catEmoji(cat)+'</div>\'">'
-        : '<div class="item-img-placeholder">'+catEmoji(cat)+'</div>';
-      var priceHtml = item.price > 0
-        ? '<span class="item-price">$'+item.price.toFixed(2)+'</span>'
-        : '<span class="item-price-free">Ask Us</span>';
+        ? '<img src="'+item.image+'" alt="'+item.name+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=item-img-placeholder>'+emoji(cat)+'</div>\'">'
+        : '<div class="item-img-placeholder">'+emoji(cat)+'</div>';
+      var priceVal = parseFloat(item.price||0);
+      var priceHtml = priceVal > 0
+        ? '<span class="item-price">$'+priceVal.toFixed(2)+'</span>'
+        : '<span class="item-price-ask">See Menu</span>';
 
-      gridHtml += '<div class="item-card">';
-      gridHtml += '<div class="item-img-wrap">'+imgHtml+'</div>';
-      gridHtml += '<div class="item-body">';
-      if (labelHtml) gridHtml += '<div class="item-labels">'+labelHtml+'</div>';
-      gridHtml += '<div class="item-name">'+item.name+'</div>';
-      gridHtml += '<p class="item-desc">'+item.description+'</p>';
-      gridHtml += '<div class="item-footer">'+priceHtml+'</div>';
-      gridHtml += '</div></div>';
+      html += '<div class="item-card">'
+        + '<div class="item-img-wrap">'+imgHtml+'</div>'
+        + '<div class="item-body">'
+        + (labelHtml ? '<div class="item-labels">'+labelHtml+'</div>' : '')
+        + '<div class="item-name">'+item.name+'</div>'
+        + '<p class="item-desc">'+(item.description||'')+'</p>'
+        + '<div class="item-footer">'+priceHtml+'</div>'
+        + '</div></div>';
     });
-    gridHtml += '</div>';
-
-    sec.innerHTML = headingHtml + gridHtml;
+    html += '</div>';
+    sec.innerHTML = html;
     body.appendChild(sec);
   });
 }
 
-/* ============================================================
-   FILTER BY CATEGORY
-   ============================================================ */
 function filterCat(cat) {
-  // Update buttons
-  document.querySelectorAll('.cat-btn').forEach(function(b) {
+  document.querySelectorAll('.cat-btn').forEach(function(b){
     b.classList.toggle('active', b.dataset.cat === cat);
   });
-  // Show/hide sections
-  document.querySelectorAll('.menu-category').forEach(function(sec) {
-    if (cat === 'all' || sec.dataset.cat === cat) {
-      sec.style.display = '';
-    } else {
-      sec.style.display = 'none';
-    }
+  document.querySelectorAll('.menu-category').forEach(function(s){
+    s.style.display = (cat === 'all' || s.dataset.cat === cat) ? '' : 'none';
   });
-  // Scroll to just below the sticky bars
-  window.scrollTo({ top: document.querySelector('.cat-bar-wrap').getBoundingClientRect().bottom + window.scrollY - 76, behavior: 'smooth' });
+  var top = document.querySelector('.cat-bar-wrap').offsetTop + document.querySelector('.cat-bar-wrap').offsetHeight;
+  window.scrollTo({top: top - 76, behavior:'smooth'});
 }
 
-/* ============================================================
-   FETCH FROM KROWD API
-   ============================================================ */
-var API_KEY = 'krwd_fd6a9bdbc7c6adb43d3f6f1ba812c4a2365f9ea520de24f81c3969e91ac';
+/* FETCH */
+fetch(KROWD_MENU_URL)
+  .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(data){
+    var items = Array.isArray(data) ? data : (data.items||data.menu||data.data||[]);
+    if (!items.length) throw new Error('empty');
+    renderMenu(items);
+  })
+  .catch(function(e){
+    console.error('Krowd API error:', e);
+    document.getElementById('menuBody').innerHTML = '<div style="text-align:center;padding:80px 20px;font-family:Barlow Condensed,sans-serif;letter-spacing:3px;text-transform:uppercase;font-size:0.82rem;color:rgba(245,242,236,0.4);">Unable to load menu right now — please visit us or call (619) 539-7738.</div>';
+    document.getElementById('catBar').innerHTML = '';
+  });
 
-function loadMenu() {
-  fetch('https://api.getkrowd.com/v1/menu?apiKey=' + API_KEY)
-    .then(function(r) {
-      if (!r.ok) throw new Error('API error ' + r.status);
-      return r.json();
-    })
-    .then(function(data) {
-      var items = Array.isArray(data) ? data : (data.items || data.menu || data.data || []);
-      if (!items.length) throw new Error('No items');
-      renderMenu(items);
-    })
-    .catch(function(err) {
-      console.warn('Krowd API fetch failed, using cached data:', err);
-      renderMenu(CACHED_MENU);
-    });
-}
-
-/* ============================================================
-   CACHED MENU (fallback if API is unavailable)
-   ============================================================ */
-var CACHED_MENU = [
-  {id:17,name:"Cauliflower Wings",category:"Starters",price:9,description:"Beer-battered cauliflower, house buffalo, house ranch.",image:"https://krowdimg.b-cdn.net/1071_20251111104834.jpg",labels:"Gluten-Free,Vegan",isNew:0,menuType:"Menu"},
-  {id:18,name:"Mac N Cheese",category:"Starters",price:9,description:"Noodles, cheddar cheese, mozzarella, basil, bread crumbs.",image:"https://krowdimg.b-cdn.net/1071_20251111104947.jpg",labels:"",isNew:0,menuType:"Menu"},
-  {id:19,name:"Cheesy Bread",category:"Starters",price:6,description:"House-made breadsticks, mozzarella, parmesan, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111105136.jpg",labels:"",isNew:0,menuType:"Menu"},
-  {id:20,name:"Buffalo Chicken Dip",category:"Starters",price:14,description:"Cream cheese, chicken, cheddar, tortilla chips.",image:"https://krowdimg.b-cdn.net/1071_20251111105320.jpg",labels:"",isNew:0,menuType:"Menu"},
-  {id:21,name:"Caesar",category:"Salads",price:5,description:"Romaine, house Caesar dressing, house croutons, fresh parmesan.",image:"https://krowdimg.b-cdn.net/1071_20251111105622.jpg",labels:"",isNew:0,menuType:"Menu"},
-  {id:23,name:"Fruit and Nut",category:"Salads",price:7,description:"Mixed greens, kale, balsamic vinaigrette, seasonal fruit, dried cherries, candied nuts, feta. Full size comes with toasted baguette.",image:"https://krowdimg.b-cdn.net/1071_20251111105900.jpg",labels:"",isNew:0,menuType:"Menu"},
-  {id:25,name:"House",category:"Salads",price:5,description:"Mixed greens, balsamic vinaigrette, tomatoes, cucumbers, red onions.",image:"https://krowdimg.b-cdn.net/1071_20251111110058.jpg",labels:"Vegetarian",isNew:0,menuType:"Menu"},
-  {id:27,name:"Yard Bird",category:"Pizzas",price:10,description:"Beer BBQ sauce, mozzarella, red onion, potato chips, green onion, chicken. Served with house-made chips.",image:"https://krowdimg.b-cdn.net/1071_20251111110801.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:29,name:"The Beef",category:"Pizzas",price:12,description:"House-made creamy horseradish sauce, beef, mozzarella, red onion, spring mix.",image:"https://krowdimg.b-cdn.net/1071_20251111110832.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:30,name:"Lost Dipper",category:"Pizzas",price:10.5,description:"Garlic oil, mozzarella, fontina, caramelized onion, sliced beef, creamy horseradish sauce, chives.",image:"https://krowdimg.b-cdn.net/1071_20251111110910.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:32,name:"The Sami",category:"Pizzas",price:12,description:"Pesto mayo, artichoke hearts, caramelized onion, roasted red peppers, mozzarella, kale.",image:"https://krowdimg.b-cdn.net/1071_20251111111006.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:33,name:"Detective Stabler",category:"Pizzas",price:9.5,description:"Garlic oil, mozzarella, smashed potatoes, bacon, house ranch, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111111156.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:35,name:"Veggie Romantic",category:"Pizzas",price:10,description:"Pomodoro, garlic, mozzarella, kale, mushroom medley, rotating seasonal veggies, cherry tomatoes, garlic oil, salt, pepper.",image:"https://krowdimg.b-cdn.net/1071_20251111115115.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:37,name:"Idahomie",category:"Pizzas",price:11,description:"Garlic oil, mozzarella, feta, roasted red peppers, smashed potatoes, Basque chorizo, chili oil, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111115150.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:39,name:"Cheese",category:"Pizzas",price:7,description:"Pomodoro, mozzarella, parmesan, garlic, fontina.",image:"https://krowdimg.b-cdn.net/1071_20251111115239.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:47,name:"Margherita",category:"Pizzas",price:8,description:"Pomodoro, fresh mozzarella, basil, basil oil, salt.",image:"https://krowdimg.b-cdn.net/1071_20251111115357.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:49,name:"Mushroom Kingdom",category:"Pizzas",price:11.5,description:"Mushroom sauce, mozzarella, fontina, garlic confit, mushroom medley, ghost town porter chili.",image:"https://krowdimg.b-cdn.net/1071_20251111115443.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:51,name:"Hawaiian Mushroom",category:"Pizzas",price:9,description:"Pomodoro, mozzarella, pineapple, balsamic drizzle, parsley.",image:"https://krowdimg.b-cdn.net/1071_20251111115524.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:71,name:"Smash Burger",category:"Burgers",price:14,description:"Velveeta cheese, lettuce, tomato, onion, smash sauce.",image:"https://krowdimg.b-cdn.net/1071_20251119185650.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:72,name:"Peanut Butter Bacon Burger",category:"Burgers",price:15.5,description:"Bacon jam, peanut butter, Velveeta.",image:"https://krowdimg.b-cdn.net/1071_20251119185604.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:73,name:"Volcano Burger",category:"Burgers",price:16.99,description:"5.3 oz beef burger, chili Volcano sauce, jalapeños, lettuce, tomato, fresh onion, cheddar cheese.",image:"https://krowdimg.b-cdn.net/menuItem_1071_20251119185445.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:53,name:"OG",category:"Spicy Burritos",price:9.5,description:"Garlic oil, mozzarella, fontina, pickled jalapeno, chili flake, buffalo sauce, green onion.",image:"https://krowdimg.b-cdn.net/1071_20251111112721.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:54,name:"Lucky Local",category:"Spicy Burritos",price:9,description:"Braised pork, potato, egg, cheese, fried shallot, lime crema.",image:"https://krowdimg.b-cdn.net/1071_20251111114523.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:55,name:"The Roman",category:"Spicy Burritos",price:9,description:"House-cured bacon, potato, egg, cheese, sun-dried tomato, aioli.",image:"https://krowdimg.b-cdn.net/1071_20251111115024.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:56,name:"Miss June",category:"Spicy Burritos",price:9,description:"Fajita veggies, egg, potato, cheese, arugula, lime crema.",image:"https://krowdimg.b-cdn.net/1071_20251111114608.jpg",labels:"",isNew:0,menuType:"Menu"},
-  {id:52,name:"Iron Cookie",category:"Desserts",price:7,description:"House-made chocolate chip cookie, STIL ice cream, beer caramel drizzle.",image:"https://krowdimg.b-cdn.net/1071_20251111111802.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:57,name:"Highland Honey",category:"Parfaits",price:9,description:"Lemon curd, yogurt, granola, meringue crumble, hot honey, blueberry, mint, powdered sugar.",image:"https://krowdimg.b-cdn.net/1071_20251111112417.jpeg",labels:"",isNew:0,menuType:"Menu"},
-  {id:58,name:"Bogus Bliss",category:"Parfaits",price:9,description:"Strawberry compote, yogurt, granola, meringue crumble, hot honey, fresh strawberry, mint, powdered sugar.",image:"https://krowdimg.b-cdn.net/1071_20251111112520.jpeg",labels:"",isNew:0,menuType:"Menu"}
-];
-
-/* ============================================================
-   CHAT WIDGET
-   ============================================================ */
-window.PayMeGPTConfig = {widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
-var chatOpen = false, dismissed = false;
+/* CHAT */
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
 function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
 function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
 function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
 nukeDefault();setInterval(nukeDefault,150);
 new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
-
-/* BOOT */
-loadMenu();
 </script>
 <script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
 </body>
