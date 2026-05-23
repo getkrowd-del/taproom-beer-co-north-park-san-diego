@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Coffee | TapRoom Beer Co. – North Park San Diego</title>
+<meta name="description" content="Best coffee in North Park San Diego. TapRoom Beer Co. serves Dark Horse Coffee roasts, espresso, cold brew, lattes, and signature drinks. Mon–Fri 7am–12pm, Sat–Sun 8am–1pm." />
+<meta property="og:title" content="Coffee | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:description" content="Best coffee in North Park San Diego. TapRoom Beer Co. serves Dark Horse Coffee roasts, espresso, cold brew, lattes, and signature drinks. Mon–Fri 7am–12pm, Sat–Sun 8am–1pm." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Coffee | TapRoom Beer Co. – North Park San Diego" />
+<meta name="twitter:description" content="Best coffee in North Park San Diego. TapRoom Beer Co. serves Dark Horse Coffee roasts, espresso, cold brew, lattes, and signature drinks. Mon–Fri 7am–12pm, Sat–Sun 8am–1pm." />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4270');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='GvVRusBX';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://www.taproombeerco.com/beer">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://www.taproombeerco.com/beer">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://www.taproombeerco.com/wines">Wines</a>
+          <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
+          <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/">Food</a>
+      <a href="https://taphouse.getkrowd.com/coffee/" class="nav-active">Coffee</a>
+      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
+      <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a>
+      <a href="https://www.taproombeerco.com/our-story">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+    <a href="https://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="section-label">North Park's Morning Spot</div>
+    <h1>Coffee<br><span>& More.</span></h1>
+    <div class="hero-partner">
+      <span class="hero-partner-label">Proudly roasted by</span>
+      <span class="hero-partner-name">☕ Dark Horse Coffee</span>
+    </div>
+    <div class="hero-hours">
+      <div class="hour-block">
+        <div class="hour-day">Mon – Fri</div>
+        <div class="hour-time">7AM – 12PM</div>
+      </div>
+      <div class="hour-divider"></div>
+      <div class="hour-block">
+        <div class="hour-day">Sat & Sun</div>
+        <div class="hour-time">8AM – 1PM</div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="https://oftendining.com/app/taproombeerco" class="btn-coffee" target="_blank">Order Online</a>
+      <a href="#menu" class="btn-outline">View Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- DARK HORSE BANNER -->
+<div class="dh-banner">
+  <div class="dh-icon">☕</div>
+  <div class="dh-text">
+    <h3>Serving the Finest Roasts from Dark Horse Coffee</h3>
+    <p>We've partnered with Dark Horse Coffee to bring North Park the best cup around. Now also serving eggwiches, pastries, and assorted breakfast items to pair with your morning brew.</p>
+  </div>
+  <div class="dh-badge">
+    <div class="dh-badge-label">Also Serving</div>
+    <div class="dh-badge-val">🥚 Eggwiches<br>🥐 Pastries</div>
+  </div>
+</div>
+
+<!-- PHOTO STRIP -->
+<div class="photo-strip">
+  <div class="photo-strip-img">
+    <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1725588097567-DGOVVNV76QB6368F4POA/coffee-shop-northpark.png" alt="TapRoom Coffee Shop North Park" loading="lazy">
+  </div>
+  <div class="photo-strip-img">
+    <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1725587974747-KIGNP7RK819G4VW0THKV/taproom-coffee-shop.png" alt="TapRoom Coffee" loading="lazy">
+  </div>
+  <div class="photo-strip-img">
+    <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1725588097088-667IQ5YGTSPIPOZY5EMG/coffee-university-heights.png" alt="Coffee University Heights San Diego" loading="lazy">
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="menu-nav-wrap">
+    <div class="menu-nav">
+      <button class="mnav-btn active" data-cat="all" onclick="filterMenu('all')">☕ All</button>
+      <button class="mnav-btn" data-cat="espresso" onclick="filterMenu('espresso')">Espresso</button>
+      <button class="mnav-btn" data-cat="signature" onclick="filterMenu('signature')">✨ Signatures</button>
+      <button class="mnav-btn" data-cat="coffee" onclick="filterMenu('coffee')">Coffee & Cold Brew</button>
+      <button class="mnav-btn" data-cat="notcoffee" onclick="filterMenu('notcoffee')">Not Coffee</button>
+      <button class="mnav-btn" data-cat="addons" onclick="filterMenu('addons')">Add-Ons</button>
+    </div>
+  </div>
+
+  <div class="menu-body">
+
+    <div class="food-note">
+      <div class="food-note-icon">🥐</div>
+      <div class="food-note-text"><strong>Now serving breakfast!</strong> Pair your coffee with our eggwiches, fresh pastries, and assorted breakfast items. Available during coffee hours.</div>
+    </div>
+
+    <!-- ESPRESSO -->
+    <div class="menu-cat" id="cat-espresso">
+      <div class="cat-head">
+        <span class="cat-head-icon">☕</span>
+        <h2 class="cat-head-name">Espresso</h2>
+        <span class="cat-head-sub">Dark Horse Roasts</span>
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Double Espresso</div></div>
+          <div class="item-prices"><div><span class="price-tag">$3.25</span></div></div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Americano</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$4.00</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$4.25</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Cappuccino</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$5.00</span><span class="price-size">12oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Latte</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$6.00</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$6.50</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Mocha</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$6.20</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$6.75</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURE -->
+    <div class="menu-cat" id="cat-signature">
+      <div class="cat-head">
+        <span class="cat-head-icon">✨</span>
+        <h2 class="cat-head-name">TapRoom Signatures</h2>
+        <span class="cat-head-sub">House Originals</span>
+      </div>
+      <div class="menu-items">
+        <div class="menu-item signature">
+          <div class="item-left">
+            <div class="item-name">Salted Caramel Latte</div>
+          </div>
+          <div class="item-prices">
+            <div><span class="price-tag">$5.50</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$6.25</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item signature">
+          <div class="item-left">
+            <div class="item-name">Cookie Crumble</div>
+          </div>
+          <div class="item-prices">
+            <div><span class="price-tag">$5.50</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$6.25</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item signature">
+          <div class="item-left">
+            <div class="item-name">TapRoom Kiss</div>
+          </div>
+          <div class="item-prices">
+            <div><span class="price-tag">$6.00</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$6.50</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COFFEE & COLD BREW -->
+    <div class="menu-cat" id="cat-coffee">
+      <div class="cat-head">
+        <span class="cat-head-icon">🧊</span>
+        <h2 class="cat-head-name">Coffee & Cold Brew</h2>
+        <span class="cat-head-sub">Dark Horse Daily</span>
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Dark Horse Daily Brew</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$2.75</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$3.25</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">TapRoom Cold Brew</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$6.00</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$6.50</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Cold Brew Growler</div>
+            <div class="item-note">32oz · $12 refill (no glass purchase)</div>
+          </div>
+          <div class="item-prices">
+            <div><span class="price-tag">$14</span><span class="price-size">32oz</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOT COFFEE -->
+    <div class="menu-cat" id="cat-notcoffee">
+      <div class="cat-head">
+        <span class="cat-head-icon">🍵</span>
+        <h2 class="cat-head-name">Not Coffee</h2>
+        <span class="cat-head-sub">Tea, Matcha & More</span>
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Matcha</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$4.50</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$5.50</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Hot Tea</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$2.50</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$3.00</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Tropical Black Iced Tea</div>
+          </div>
+          <div class="item-prices">
+            <div><span class="price-tag">$2.75</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Chai</div></div>
+          <div class="item-prices">
+            <div><span class="price-tag">$4.50</span><span class="price-size">12oz</span></div>
+            <div><span class="price-tag">$5.50</span><span class="price-size">16oz</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD-ONS -->
+    <div class="menu-cat" id="cat-addons">
+      <div class="cat-head">
+        <span class="cat-head-icon">➕</span>
+        <h2 class="cat-head-name">Flavors & Add-Ons</h2>
+        <span class="cat-head-sub">Make It Yours</span>
+      </div>
+      <div class="extras-grid">
+        <div class="extra-chip">
+          <span class="extra-name">Housemade Flavors<br><span style="font-size:0.72rem;font-weight:400;letter-spacing:1px;text-transform:none;color:rgba(245,242,236,0.4);">vanilla · lavender · honey · caramel · hazelnut</span></span>
+          <span class="extra-price">+$0.25</span>
+        </div>
+        <div class="extra-chip">
+          <span class="extra-name">Housemade Vanilla<br><span style="font-size:0.72rem;font-weight:400;letter-spacing:1px;text-transform:none;color:rgba(245,242,236,0.4);">+ weekly rotating flavor</span></span>
+          <span class="extra-price">+$0.25</span>
+        </div>
+        <div class="extra-chip">
+          <span class="extra-name">Cold Foam</span>
+          <span class="extra-price">+$0.25</span>
+        </div>
+        <div class="extra-chip">
+          <span class="extra-name">Oat Milk</span>
+          <span class="extra-price">+$0.50</span>
+        </div>
+        <div class="extra-chip">
+          <span class="extra-name">Almond Milk</span>
+          <span class="extra-price">+$0.50</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">Coffee Hours</div>
+      <div class="footer-info">
+        <strong style="color:var(--white);">North Park</strong><br>
+        Mon–Fri: 7am–12pm<br>
+        Sat & Sun: 8am–1pm<br><br>
+        2000 El Cajon Blvd<br>
+        <a href="tel:+16195397738">(619) 539-7738</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://taphouse.getkrowd.com/coffee/">Coffee</a><br>
+        <a href="https://www.taproombeerco.com/brunch">Brunch</a><br>
+        <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a><br>
+        <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CHAT -->
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>☕ <strong>Morning!</strong> Ask me about our coffee menu or today's specials.</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()" title="Chat with TapRoom!">
+    <img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat">
+  </div>
+</div>
+
+<script>
+function filterMenu(cat) {
+  document.querySelectorAll('.mnav-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.cat === cat); });
+  var cats = ['espresso','signature','coffee','notcoffee','addons'];
+  cats.forEach(function(c){
+    var el = document.getElementById('cat-'+c);
+    if(el) el.style.display = (cat === 'all' || cat === c) ? '' : 'none';
+  });
+  if(cat !== 'all'){
+    var top = document.querySelector('.menu-nav-wrap').offsetTop + document.querySelector('.menu-nav-wrap').offsetHeight;
+    window.scrollTo({top: top, behavior:'smooth'});
+  }
+}
+
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
