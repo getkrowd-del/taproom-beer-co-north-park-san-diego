@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://taphouse.getkrowd.com/beer/</loc>
+    <lastmod>2026-05-23T23:31:25.037Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://taphouse.getkrowd.com/kegs/</loc>
     <lastmod>2026-05-23T23:24:17.027Z</lastmod>
     <changefreq>weekly</changefreq>
