@@ -143,6 +143,7 @@
 (function(){
   var slug='xMjisGdYk';
   var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
   function findEmail(){
     var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
     for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
@@ -187,8 +188,12 @@
       var pName=urlParams.get('product')||'your item';
       var overlay=document.createElement('div');overlay.id='payment-success-overlay';
       overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
-      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">Thank you for purchasing '+pName.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'.</p><button onclick="document.getElementById(\'payment-success-overlay\').remove();window.history.replaceState({},\'\',window.location.pathname);" style="padding:12px 32px;font-size:16px;font-weight:600;background:#16a34a;color:white;border:none;border-radius:8px;cursor:pointer;">Continue</button></div>';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
       document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
     }
   });
 })();
@@ -198,27 +203,40 @@
 
 <!-- CENTERED LOGO NAV -->
 <nav data-section="navbar">
+  
   <div class="nav-inner">
     <!-- Left links -->
     <div class="nav-left">
-      <a href="#beer">Beer</a>
-      <a href="#food">Food</a>
-      <a href="#specials">Specials</a>
+      <div class="dropdown">
+        <a href="/beer" aria-haspopup="true" aria-expanded="false">Beer</a>
+        <div class="dropdown-menu" aria-label="submenu">
+          <a href="/beer">Beer</a>
+          <a href="https://www.taproombeerco.com/sites/default/files/TapRoom_Beer_Guest_Cocktails_Cider_2023_9_22.pdf" target="_blank" rel="noopener" class="pdf-link">Guest Beer/Cocktails/Cider</a>
+          <a href="/wines">Wines</a>
+          <a href="/kegs">Kegs</a>
+          <a href="/partners">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://www.taproombeerco.com/menu">Food</a>
+      <a href="https://www.taproombeerco.com/coffee">Coffee</a>
+      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
     </div>
     <!-- Center logo -->
     <div class="nav-logo">
-      <a href="#">
+      <a href="https://www.taproombeerco.com">
         <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co">
       </a>
     </div>
     <!-- Right links -->
-    <div class="nav-right">
-      <a href="#about">About</a>
-      <a href="#locations">Locations</a>
+    <div class="nav-right" style="display:flex; align-items:center; gap:14px;">
+      <a href="https://www.taproombeerco.com/reservations">Reservations</a>
+      <a href="https://www.taproombeerco.com/private-events">Private Events</a>
+      <a href="https://www.taproombeerco.com/our-story">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" rel="noopener" class="pb-badge">PB LOCATION</a>
       <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
     </div>
     <!-- Mobile only logo -->
-    <a href="#"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    <a href="https://www.taproombeerco.com"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
   </div>
 </nav>
 
@@ -304,6 +322,17 @@
   </div>
 </section>
 
+<!-- TAP LIST -->
+<section class="taps-section" id="beer" data-section="tap-list">
+  <div class="section-label">Updated Daily</div>
+  <h2 class="section-title">What's On Tap</h2>
+  <div id="taps-container"><div class="taps-loading">Loading tap list…</div></div>
+  <div style="text-align:center;margin-top:48px;">
+    <a href="https://www.taproombeerco.com/beer" class="btn-lime">See Full Beer List</a>
+  </div>
+</section>
+
+
 <!-- WEEKLY SPECIALS -->
 <section class="specials-section" id="specials" data-section="specials">
   <div class="section-label">Every Week</div>
@@ -318,8 +347,37 @@
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section class="reviews-section" data-section="reviews">
+  <div class="section-label">What Guests Are Saying</div>
+  <h2 class="section-title">The Crowd <span style="color:var(--lime)">Loves It.</span></h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Best craft beer selection in North Park, period. 50 taps and every single one is worth trying. The staff knows their stuff and the food is legit too."</p>
+      <div class="review-author">Google Reviewer</div>
+      <div class="review-source">via Google</div>
+      <div class="review-quote">"</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"TapRoom has been our go-to brewery for years. The brunch is unreal — bottomless mimosas, great food, dog-friendly patio. Nothing better on a Sunday."</p>
+      <div class="review-author">Yelp Reviewer</div>
+      <div class="review-source">via Yelp</div>
+      <div class="review-quote">"</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Incredible vibe, amazing beer knowledge, and the weekly specials keep us coming back. Taps &amp; Wings Thursday is a must. Best kept secret in San Diego."</p>
+      <div class="review-author">TripAdvisor Reviewer</div>
+      <div class="review-source">via TripAdvisor</div>
+      <div class="review-quote">"</div>
+    </div>
+  </div>
+</section>
+
 <!-- BEER -->
-<section class="beer-section" id="beer" data-section="benefits">
+<section class="beer-section" id="beer-list" data-section="benefits">
   <div class="beer-image">
     <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/9575b9ce-4785-46b8-b679-d217b1897fa2/cans-to-go.jpg?format=1500w" alt="TapRoom Cans">
     <div class="beer-image-overlay"></div>
@@ -432,7 +490,6 @@
     }
   }
   function nukeDefault() {
-    // Kill by known selectors
     var killers = [
       '#paymegpt-bubble-btn','[id*="paymegpt-bubble"]','[id*="paymegpt-launcher"]',
       '[id*="pmgpt-bubble"]','[id*="pmgpt-launcher"]',
@@ -445,16 +502,13 @@
         el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;width:0!important;height:0!important;position:absolute!important;top:-9999px!important;left:-9999px!important;';
       }); } catch(e){}
     });
-    // Kill any fixed-position round div that is NOT our wrapper or bubble
     document.querySelectorAll('body > div').forEach(function(el){
       if (el.id === 'tr-chat-wrapper' || el.id === 'tr-chat-bubble' || el.id === 'tr-chat-popout') return;
       var s = window.getComputedStyle(el);
       var inline = el.getAttribute('style') || '';
-      // Kill if it's fixed position AND small AND round AND not ours
       if (s.position === 'fixed' || inline.includes('fixed')) {
         var rect = el.getBoundingClientRect();
         if (rect.width < 100 && rect.height < 100 && rect.width > 0) {
-          // Check if it has a circular border radius or green/lime color
           var bg = s.backgroundColor || '';
           var br = s.borderRadius || '';
           if (br.includes('50%') || bg.includes('197, 230') || bg.includes('c5e6') || inline.includes('border-radius: 50%') || inline.includes('border-radius:50%')) {
@@ -463,7 +517,6 @@
         }
       }
     });
-    // Also kill small fixed iframes (widget iframe launchers)
     document.querySelectorAll('iframe').forEach(function(el){
       var s = window.getComputedStyle(el);
       if (s.position === 'fixed') {
@@ -474,7 +527,6 @@
       }
     });
   }
-  // Run on load, every 150ms, and watch ALL DOM changes
   nukeDefault();
   setInterval(nukeDefault, 150);
   new MutationObserver(function(){ nukeDefault(); }).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:['style','class','id']});
@@ -483,5 +535,6 @@
 </script>
 <script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
 
+  <script src="script.js"></script>
 </body>
 </html>
