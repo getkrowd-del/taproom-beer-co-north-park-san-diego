@@ -204,7 +204,6 @@
 </script>  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
 <nav>
   <div class="nav-inner">
     <div class="nav-left">
@@ -253,10 +252,7 @@
       <p class="hero-sub">Looking for a keg for your next party, home bar, or business? Submit the form below and we'll email you a full list of available kegs and pricing.</p>
       <div class="hero-badge">
         <div class="hero-badge-icon">🍺</div>
-        <div class="hero-badge-text">
-          <strong>Pickup Available</strong>
-          2000 El Cajon Blvd · North Park
-        </div>
+        <div class="hero-badge-text"><strong>Pickup Available</strong>2000 El Cajon Blvd · North Park</div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start;">
@@ -365,8 +361,9 @@
 </div>
 
 <script>
-/* ===== LIVE TAP LIST — Krowd v3, companyId=1110 ===== */
-fetch('https://api.getkrowd.com/v3/beer/index.cfm?companyId=1110&apiKey=krwd_55d0f6ea46590c34c08265bdf0fabe6a3296b6546f0a7ee2c500623ad31')
+var KROWD_BEER_URL = 'https://api.getkrowd.com/v3/beer/index.cfm?companyId=1110&apiKey=krwd_fd6a9bdbc7c6adb43d3f6f1ba812c4a2365f9ea520de24f81c3969e91ac';
+
+fetch(KROWD_BEER_URL)
   .then(function(r){ return r.json(); })
   .then(function(data){
     var beers = Array.isArray(data) ? data : (data.beers||data.items||data.data||[]);
