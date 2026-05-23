@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Private Events | TapRoom Beer Co. – North Park San Diego</title>
+<meta property="og:title" content="Private Events | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Private Events | TapRoom Beer Co. – North Park San Diego" />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4266');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='aT5y9KquL';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://www.taproombeerco.com/beer">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://www.taproombeerco.com/beer">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://www.taproombeerco.com/wines">Wines</a>
+          <a href="https://www.taproombeerco.com/kegs">Kegs</a>
+          <a href="https://www.taproombeerco.com/partners">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/">Food</a>
+      <a href="https://www.taproombeerco.com/coffee">Coffee</a>
+      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
+      <a href="https://taphouse.getkrowd.com/private-events/" class="nav-active">Private Events</a>
+      <a href="https://www.taproombeerco.com/our-story">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+    <a href="https://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Your Party. Our Place.</div>
+    <h1>Private Events<em>at TapRoom Beer Co.</em></h1>
+    <p class="hero-sub">From birthday bashes to corporate functions, baby showers to bachelorettes — TapRoom's North Park taproom is the perfect backdrop for your next event. 50 rotating craft taps, full kitchen, dog-friendly patio, and a crew that knows how to throw a party.</p>
+  </div>
+</section>
+
+<!-- CAPACITY STATS -->
+<section class="capacity-section">
+  <div class="section-label">Venue Capacity</div>
+  <h2 class="section-title">Space For Every<br>Occasion.</h2>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">300+</div>
+      <div class="stat-label">Inside<br>Reception</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Outside<br>Patio</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">50</div>
+      <div class="stat-label">Rotating<br>Taps</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">Full</div>
+      <div class="stat-label">Kitchen<br>Available</div>
+    </div>
+  </div>
+</section>
+
+<!-- OCCASION TYPES -->
+<section class="occasions-section">
+  <div class="section-label">What We Host</div>
+  <h2 class="section-title">Every Reason<br>to Celebrate.</h2>
+  <div class="occasions-grid">
+    <div class="occ-card"><div class="occ-icon">🎂</div><div class="occ-title">Birthdays & Milestones</div><p class="occ-desc">From 21sts to 50ths, we make every birthday legendary. Private bar, great food, 50 taps to choose from.</p></div>
+    <div class="occ-card"><div class="occ-icon">💼</div><div class="occ-title">Corporate & Office Events</div><p class="occ-desc">Team happy hours, holiday parties, client entertaining — a relaxed, elevated setting that impresses without being stuffy.</p></div>
+    <div class="occ-card"><div class="occ-icon">💍</div><div class="occ-title">Bridal & Bachelorette</div><p class="occ-desc">Celebrate the bride-to-be in style. Private sections, custom drink packages, and a vibe the whole squad will love.</p></div>
+    <div class="occ-card"><div class="occ-icon">👶</div><div class="occ-title">Baby & Bridal Showers</div><p class="occ-desc">Our sunny dog-friendly patio and full brunch menu make TapRoom the perfect daytime shower venue.</p></div>
+    <div class="occ-card"><div class="occ-icon">🎓</div><div class="occ-title">Graduations & Reunions</div><p class="occ-desc">Celebrate the achievement with people who matter. Space for large groups, great food, and a full bar.</p></div>
+    <div class="occ-card"><div class="occ-icon">🍺</div><div class="occ-title">Semi-Private & Buyouts</div><p class="occ-desc">Need the whole venue? Full buyouts available. Want a reserved section? Semi-private options too — just ask.</p></div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="included-section">
+  <div class="section-label">What You Get</div>
+  <h2 class="section-title">The Full<br>TapRoom Experience.</h2>
+  <div class="included-grid">
+    <div class="inc-item"><div class="inc-icon">🍺</div><div><div class="inc-title">50 Rotating Craft Taps</div><p class="inc-desc">Your guests get access to our full draft list — local IPAs, lagers, sours, ciders, and guest taps. Always rotating, always fresh.</p></div></div>
+    <div class="inc-item"><div class="inc-icon">🍕</div><div><div class="inc-title">Full Kitchen Menu</div><p class="inc-desc">Craft pizzas, burgers, burritos, starters, and desserts. Custom food packages available for large groups.</p></div></div>
+    <div class="inc-item"><div class="inc-icon">🐶</div><div><div class="inc-title">Dog-Friendly Patio</div><p class="inc-desc">North Park's favorite dog-friendly outdoor space. Perfect for daytime events and brunch parties.</p></div></div>
+    <div class="inc-item"><div class="inc-icon">📣</div><div><div class="inc-title">Event Promotion</div><p class="inc-desc">We'll help promote your event on our social channels and in-house signage to drive attendance for your cause or celebration.</p></div></div>
+  </div>
+</section>
+
+<!-- FORM SECTION -->
+<section class="form-section" id="book">
+  <div class="form-layout">
+    <div class="form-intro">
+      <div class="section-label">Book Your Event</div>
+      <h2>Let's Make It<br>Happen.</h2>
+      <p>Fill out the form and our events team will reach out within 1–2 business days to confirm availability and talk through all the details.</p>
+      <div class="form-intro-detail">
+        <p><strong>📞 Prefer to talk?</strong><br>Call us at <a href="tel:+16195397738" style="color:var(--lime);">(619) 539-7738</a><br><br>
+        <strong>📍 Visit Us</strong><br>2000 El Cajon Blvd · North Park<br>San Diego, CA 92104<br><br>
+        <strong>🕐 Hours</strong><br>Mon–Fri: 11am–11pm<br>Sat & Sun: 10am–11pm</p>
+      </div>
+    </div>
+
+    <div class="form-wrap">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name <span class="req">required</span></label>
+          <input type="text" id="firstName" placeholder="First name" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name <span class="req">required</span></label>
+          <input type="text" id="lastName" placeholder="Last name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email <span class="req">required</span></label>
+        <input type="email" id="email" placeholder="your@email.com" required>
+      </div>
+
+      <label class="checkbox-item">
+        <input type="checkbox" id="newsSignup">
+        <span>Sign up for news and updates from TapRoom Beer Co.</span>
+      </label>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" id="phone" placeholder="(619) 555-0000">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="eventDate">
+          <span class="form-hint">If flexible, leave blank and note in message below.</span>
+        </div>
+        <div class="form-group">
+          <label>Time</label>
+          <input type="time" id="eventTime">
+          <span class="form-hint">In Pacific Time</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Message <span class="req">required</span></label>
+        <textarea id="message" placeholder="Party size, details & special requests..."></textarea>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" onclick="submitEvent()">Submit Request</button>
+      <div class="form-error" id="formError">Please fill in all required fields (First Name, Last Name, Email, and Message).</div>
+
+      <div class="form-success" id="formSuccess">
+        <h3>🎉 Request Received!</h3>
+        <p>Thanks for reaching out! Our events team will be in touch within 1–2 business days to confirm your date and go over all the details.<br><br>Questions in the meantime? Call us at <strong style="color:var(--lime);">(619) 539-7738</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">North Park</div>
+      <div class="footer-info">2000 El Cajon Blvd<br>San Diego, CA 92104<br><a href="tel:+16195397738">(619) 539-7738</a><br>Mon–Fri: 11am–11pm<br>Sat & Sun: 10am–11pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://www.taproombeerco.com/beer">Beer List</a><br>
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a><br>
+        <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a><br>
+        <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>🎉 Planning an event? <strong>Ask me anything</strong> about private parties at TapRoom!</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()" title="Chat with TapRoom!">
+    <img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat">
+  </div>
+</div>
+
+<script>
+function submitEvent() {
+  var firstName = document.getElementById('firstName').value.trim();
+  var lastName  = document.getElementById('lastName').value.trim();
+  var email     = document.getElementById('email').value.trim();
+  var message   = document.getElementById('message').value.trim();
+  var errEl     = document.getElementById('formError');
+  errEl.style.display = 'none';
+
+  if (!firstName || !lastName || !email || !message) {
+    errEl.style.display = 'block'; return;
+  }
+
+  var phone   = document.getElementById('phone').value.trim();
+  var date    = document.getElementById('eventDate').value;
+  var time    = document.getElementById('eventTime').value;
+  var news    = document.getElementById('newsSignup').checked ? 'Yes' : 'No';
+  var btn     = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+
+  // Format date nicely if present
+  var dateFormatted = date ? new Date(date + 'T12:00:00').toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '';
+  // Format time nicely if present
+  var timeFormatted = '';
+  if (time) {
+    var parts = time.split(':');
+    var h = parseInt(parts[0]), m = parts[1];
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    timeFormatted = h + ':' + m + ' ' + ampm + ' PT';
+  }
+
+  var payload = {
+    contactEmail: email,
+    contactName: firstName + ' ' + lastName,
+    contactPhone: phone,
+    data: {
+      'First Name': firstName,
+      'Last Name': lastName,
+      'Email': email,
+      'Sign Up for News and Updates': news,
+      'Phone': phone,
+      'Date': dateFormatted || 'Flexible',
+      'Time': timeFormatted || 'Flexible',
+      'Message': message,
+      'Submission Date': new Date().toLocaleDateString('en-US')
+    }
+  };
+
+  fetch('https://paymegpt.com/api/webhooks/flow/3249/30b641cafe7194ad28abb5965dc39b6f30220c8896303ba6a18a16e28175cc97', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    document.getElementById('formSuccess').style.display = 'block';
+    btn.style.display = 'none';
+    document.querySelectorAll('.form-wrap input, .form-wrap textarea').forEach(function(el){ el.value=''; });
+    document.getElementById('newsSignup').checked = false;
+  })
+  .catch(function() {
+    btn.disabled = false; btn.textContent = 'Submit Request';
+    errEl.textContent = 'Something went wrong. Please call us at (619) 539-7738 or email mgmt@taproombeerco.com.';
+    errEl.style.display = 'block';
+  });
+}
+
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
