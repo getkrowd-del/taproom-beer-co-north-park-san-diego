@@ -1,0 +1,1 @@
+const KROWD_MENU_URL = "https://api.getkrowd.com/v3/menu/index.cfm?companyId=1110&apiKey=krwd_fd6a9bdbc7c6adb43d3f6f1ba812c4a2365f9ea520de24f81c3969e91ac";
