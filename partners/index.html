@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Find Our Beer | TapRoom Beer Co. – North Park San Diego</title>
+<meta name="description" content="Find TapRoom Beer Co. craft beer at select bars, restaurants, and bottle shops around San Diego." />
+<meta property="og:title" content="Find Our Beer | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:description" content="Find TapRoom Beer Co. craft beer at select bars, restaurants, and bottle shops around San Diego." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Find Our Beer | TapRoom Beer Co. – North Park San Diego" />
+<meta name="twitter:description" content="Find TapRoom Beer Co. craft beer at select bars, restaurants, and bottle shops around San Diego." />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4269');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='VSjcvrgf';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://www.taproombeerco.com/beer" class="nav-active">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://www.taproombeerco.com/beer">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://www.taproombeerco.com/wines">Wines</a>
+          <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
+          <a href="https://taphouse.getkrowd.com/partners/" class="dm-active">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/">Food</a>
+      <a href="https://www.taproombeerco.com/coffee">Coffee</a>
+      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
+      <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a>
+      <a href="https://www.taproombeerco.com/our-story">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+    <a href="https://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Around San Diego</div>
+    <h1>Find Our Beer<br><span>Near You.</span></h1>
+    <p>We partner with a select group of bars, restaurants, and bottle shops around town to bring our finest liquid to you. Be sure to visit these awesome spots!</p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">12</div><div class="hero-stat-label">Partner Locations</div></div>
+      <div><div class="hero-stat-num">5</div><div class="hero-stat-label">Cities & Areas</div></div>
+      <div><div class="hero-stat-num">50+</div><div class="hero-stat-label">Taps at TapRoom</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-filter="all" onclick="filterPartners('all')">🍺 All</button>
+    <button class="filter-btn" data-filter="San Diego" onclick="filterPartners('San Diego')">📍 San Diego</button>
+    <button class="filter-btn" data-filter="Mission Beach" onclick="filterPartners('Mission Beach')">🏖️ Mission Beach</button>
+    <button class="filter-btn" data-filter="Kearny Mesa" onclick="filterPartners('Kearny Mesa')">🍗 Kearny Mesa</button>
+    <button class="filter-btn" data-filter="Escondido" onclick="filterPartners('Escondido')">🍷 Escondido</button>
+    <button class="filter-btn" data-filter="Encinitas" onclick="filterPartners('Encinitas')">🍕 Encinitas</button>
+    <button class="filter-btn" data-filter="Poway" onclick="filterPartners('Poway')">🦞 Poway</button>
+    <button class="filter-btn" data-filter="Chula Vista" onclick="filterPartners('Chula Vista')">🌮 Chula Vista</button>
+    <button class="filter-btn" data-filter="Special" onclick="filterPartners('Special')">✨ Special</button>
+  </div>
+</div>
+
+<!-- PARTNERS GRID -->
+<section class="partners-section">
+  <div class="section-label">Our Partners</div>
+  <h2 class="section-title">Where to Find<br>TapRoom Beer.</h2>
+  <p class="section-sub">We partner with a select few bars and restaurants around town to bring our finest liquid to you — be sure to visit these spots!</p>
+
+  <div class="partners-grid" id="partnersGrid">
+
+    <!-- Common Theory Kearny Mesa -->
+    <a class="partner-card" data-area="Kearny Mesa" href="https://maps.google.com/?q=Common+Theory+4805+Convoy+St+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍺 Gastropub & Bar</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Common Theory</div>
+        <div class="pc-area">Kearny Mesa · Convoy St</div>
+        <div class="pc-address">4805 Convoy St, San Diego, CA 92111<br>Also at Otay Ranch, Chula Vista</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.4 · 1,679 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Common Theory Otay Ranch -->
+    <a class="partner-card" data-area="Chula Vista" href="https://maps.google.com/?q=Common+Theory+1980+Optima+St+Chula+Vista" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍺 Gastropub & Bar</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Common Theory</div>
+        <div class="pc-area">Otay Ranch · Chula Vista</div>
+        <div class="pc-address">1980 Optima St, Chula Vista, CA 91915</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.5 · 142 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Balboa's TapHouse -->
+    <a class="partner-card" data-area="San Diego" href="https://maps.google.com/?q=Balboa+Tap+House+4423+Genesee+Ave+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍺 Sports Bar & Tap House</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Balboa's Tap House</div>
+        <div class="pc-area">Clairemont · San Diego</div>
+        <div class="pc-address">4423 Genesee Ave, San Diego, CA 92117</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.5 · 423 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Guava Beach -->
+    <a class="partner-card" data-area="Mission Beach" href="https://maps.google.com/?q=Guava+Beach+Bar+Grill+3714+Mission+Blvd+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🏖️ Beach Bar & Grill</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Guava Beach Bar & Grill</div>
+        <div class="pc-area">Mission Beach · San Diego</div>
+        <div class="pc-address">3714 Mission Blvd, San Diego, CA 92109</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.4 · 1,050 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Sandbar -->
+    <a class="partner-card" data-area="Mission Beach" href="https://maps.google.com/?q=Sandbar+Sports+Grill+718+Ventura+Pl+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🏄 Sports Grill & Bar</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Sandbar Sports Grill</div>
+        <div class="pc-area">Mission Beach · San Diego</div>
+        <div class="pc-address">718 Ventura Pl, San Diego, CA 92109</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.4 · 1,978 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- The Butcher Shop -->
+    <a class="partner-card" data-area="Kearny Mesa" href="https://maps.google.com/?q=The+Butcher+Shop+5255+Kearny+Villa+Rd+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🥩 Steak House</span></div>
+      <div class="pc-body">
+        <div class="pc-name">The Butcher Shop</div>
+        <div class="pc-area">Kearny Mesa · San Diego</div>
+        <div class="pc-address">5255 Kearny Villa Rd, San Diego, CA 92123</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.4 · 1,732 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Cross Street Chicken & Beer -->
+    <a class="partner-card" data-area="Kearny Mesa" href="https://maps.google.com/?q=Cross+Street+Chicken+Beer+4403+Convoy+St+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍗 Chicken & Beer</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Cross Street Chicken & Beer</div>
+        <div class="pc-area">Convoy · Kearny Mesa</div>
+        <div class="pc-address">4403 Convoy St, San Diego, CA 92111</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.5 · 1,528 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- The Brigantine -->
+    <a class="partner-card" data-area="Poway" href="https://maps.google.com/?q=Brigantine+Seafood+13445+Poway+Rd+Poway" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🦞 Seafood & Oyster Bar</span></div>
+      <div class="pc-body">
+        <div class="pc-name">The Brigantine</div>
+        <div class="pc-area">Poway</div>
+        <div class="pc-address">13445 Poway Rd, Poway, CA 92064</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.4 · 1,343 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Jimbo's Liquor -->
+    <a class="partner-card" data-area="San Diego" href="https://maps.google.com/?q=Jimbo+Liquor+4411+Genesee+Ave+San+Diego" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍾 Craft Beer & Bottle Shop</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Jimbo's Liquor</div>
+        <div class="pc-area">Clairemont · San Diego</div>
+        <div class="pc-address">4411 Genesee Ave, San Diego, CA 92117</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.3 · 160 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Blue Ribbon Pizzeria -->
+    <a class="partner-card" data-area="Encinitas" href="https://maps.google.com/?q=Blue+Ribbon+Artisan+Pizzeria+897+S+Coast+Hwy+Encinitas" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍕 Artisan Pizzeria</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Blue Ribbon Pizzeria</div>
+        <div class="pc-area">Encinitas · North County</div>
+        <div class="pc-address">897 S Coast Hwy 101, Encinitas, CA 92024</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.5 · 456 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Holiday Wine Cellars -->
+    <a class="partner-card" data-area="Escondido" href="https://maps.google.com/?q=Holiday+Wine+Cellar+302+W+Mission+Ave+Escondido" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍷 Wine & Bottle Shop</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Holiday Wine Cellars</div>
+        <div class="pc-area">Escondido · North County</div>
+        <div class="pc-address">302 W Mission Ave, Escondido, CA 92025</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.8 · 493 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Burger Bench -->
+    <a class="partner-card" data-area="Escondido" href="https://maps.google.com/?q=Burger+Bench+237+E+Grand+Ave+Escondido" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">🍔 Burger Bar</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Burger Bench</div>
+        <div class="pc-area">Escondido · North County</div>
+        <div class="pc-address">237 E Grand Ave, Escondido, CA 92025</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">4.6 · 2,641 reviews</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+    <!-- Disneyland -->
+    <a class="partner-card special" data-area="Special" href="https://maps.google.com/?q=Disneyland+Anaheim+CA" target="_blank">
+      <div class="pc-type-bar"><span class="pc-type">✨ Special Partner · December</span></div>
+      <div class="pc-body">
+        <div class="pc-name">Disneyland</div>
+        <div class="pc-area">Anaheim · December Only</div>
+        <div class="pc-address">You can find TapRoom Beer Co. at Disneyland during December events. The happiest place on earth just got hoppier. 🍺</div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-rating"><span class="pc-stars">★★★★★</span><span class="pc-rating-num">The Happiest Place on Earth</span></div>
+        <span class="pc-map-link">Directions</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Want TapRoom Beer<br><span>at Your Spot?</span></h2>
+  <p>Interested in carrying TapRoom beer at your bar, restaurant, or bottle shop? We'd love to connect.</p>
+  <div class="cta-btns">
+    <a href="mailto:mgmt@taproombeerco.com" class="btn-lime">Get In Touch</a>
+    <a href="https://taphouse.getkrowd.com/kegs/" class="btn-outline">Order a Keg</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">North Park</div>
+      <div class="footer-info">2000 El Cajon Blvd<br>San Diego, CA 92104<br><a href="tel:+16195397738">(619) 539-7738</a><br>Mon–Fri: 11am–11pm<br>Sat & Sun: 10am–11pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://www.taproombeerco.com/beer">Beer List</a><br>
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a><br>
+        <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a><br>
+        <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>🗺️ <strong>Looking for our beer?</strong> Ask me where to find TapRoom near you!</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()" title="Chat with TapRoom!">
+    <img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat">
+  </div>
+</div>
+
+<script>
+function filterPartners(area) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.filter === area); });
+  document.querySelectorAll('.partner-card').forEach(function(c){
+    c.style.display = (area === 'all' || c.dataset.area === area) ? '' : 'none';
+  });
+}
+
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
