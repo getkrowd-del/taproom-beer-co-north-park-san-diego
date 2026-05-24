@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://taphouse.getkrowd.com/</loc>
+    <lastmod>2026-05-24T12:50:21.442Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://taphouse.getkrowd.com/our-story/</loc>
     <lastmod>2026-05-24T12:43:56.058Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -58,11 +63,6 @@
   <url>
     <loc>https://taphouse.getkrowd.com/menu/</loc>
     <lastmod>2026-05-24T11:43:49.783Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://taphouse.getkrowd.com/</loc>
-    <lastmod>2026-05-24T11:43:40.107Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
