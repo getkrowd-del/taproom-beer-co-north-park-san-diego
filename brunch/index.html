@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Brunch | TapRoom Beer Co. – North Park San Diego</title>
+<meta name="description" content="Best brunch on the BLVD! $15 bottomless mimosas, dog-friendly patio, build-your-own mimosa bar. Sat &amp; Sun" />
+<meta property="og:title" content="Brunch | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:description" content="Best brunch on the BLVD! $15 bottomless mimosas, dog-friendly patio, build-your-own mimosa bar. Sat &amp; Sun" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Brunch | TapRoom Beer Co. – North Park San Diego" />
+<meta name="twitter:description" content="Best brunch on the BLVD! $15 bottomless mimosas, dog-friendly patio, build-your-own mimosa bar. Sat &amp; Sun" />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4278');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='xYZppYjrF';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://taphouse.getkrowd.com/wines/">Wines</a>
+          <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
+          <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/">Food</a>
+      <a href="https://taphouse.getkrowd.com/coffee/">Coffee</a>
+      <a href="https://taphouse.getkrowd.com/brunch/" class="nav-active">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
+      <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a>
+      <a href="https://taphouse.getkrowd.com/our-story/">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+  </div>
+  <div class="nav-mobile">
+    <a href="https://taphouse.getkrowd.com/" class="nav-mobile-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <span class="mob-section-label">🍺 Beer</span>
+  <a href="https://taphouse.getkrowd.com/beer/" class="mob-link">Beer List</a>
+  <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank" class="mob-sub-link">Guest Beer, Cocktails & Cider ↗</a>
+  <a href="https://taphouse.getkrowd.com/wines/" class="mob-sub-link">Wines</a>
+  <a href="https://taphouse.getkrowd.com/kegs/" class="mob-sub-link">Kegs</a>
+  <a href="https://taphouse.getkrowd.com/partners/" class="mob-sub-link">Find Our Beer</a>
+  <span class="mob-section-label">🍕 Food & Drinks</span>
+  <a href="https://taphouse.getkrowd.com/menu/" class="mob-link">Food Menu</a>
+  <a href="https://taphouse.getkrowd.com/coffee/" class="mob-link">Coffee</a>
+  <a href="https://taphouse.getkrowd.com/brunch/" class="mob-link mob-active">Brunch</a>
+  <span class="mob-section-label">📅 Visit Us</span>
+  <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank" class="mob-link">Reservations ↗</a>
+  <a href="https://taphouse.getkrowd.com/private-events/" class="mob-link">Private Events</a>
+  <a href="https://taphouse.getkrowd.com/our-story/" class="mob-link">About</a>
+  <a href="https://www.sdtaproom.com/" target="_blank" class="mob-link">PB Location ↗</a>
+  <span class="mob-section-label">✉️ Contact</span>
+  <a href="https://taphouse.getkrowd.com/contact/" class="mob-link">Contact Us</a>
+  <a href="https://taphouse.getkrowd.com/employment/" class="mob-link">Employment</a>
+  <a href="https://taphouse.getkrowd.com/fundraisers/" class="mob-link">Fundraisers</a>
+  <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank" class="mob-link">Gift Cards ↗</a>
+  <div class="mob-cta-wrap"><a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="mob-cta">Order Online</a></div>
+</div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="section-label">Sat & Sun on the BLVD</div>
+    <h1>Brunch<br><span>Season.</span></h1>
+    <p class="hero-sub">Best brunch vibes in North Park. Creative dishes, a dog-friendly patio, and a build-your-own mimosa bar. Bring your people and come vibe with us.</p>
+    <div class="hero-badges">
+      <div class="hero-badge"><div class="hero-badge-icon">🥂</div><div class="hero-badge-text">$15 Bottomless<br>Mimosas</div></div>
+      <div class="hero-badge"><div class="hero-badge-icon">🐕</div><div class="hero-badge-text">Dog Friendly<br>Patio</div></div>
+      <div class="hero-badge"><div class="hero-badge-icon">⏰</div><div class="hero-badge-text">Sat & Sun<br>'til 1:30PM</div></div>
+    </div>
+    <div class="hero-actions">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank" class="btn-gold">Reserve a Table</a>
+      <a href="#menu" class="btn-outline">View Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- MIMOSA BANNER -->
+<div class="mimosa-banner">
+  <div class="mimosa-inner">
+    <div class="mimosa-main">
+      <div class="mimosa-icon">🥂</div>
+      <div class="mimosa-text">
+        <h2>Build-Your-Own<br>Mimosa Bar</h2>
+        <p>Saturdays & Sundays 'til 1:30pm. Brut bottles $15 before 11am, $20 after. Prosecco $25 before 11am, $35 after. Dog-friendly patio included — no extra charge for good vibes.</p>
+      </div>
+    </div>
+    <div class="mimosa-price">
+      <div class="mimosa-price-num">$15</div>
+      <div class="mimosa-price-label">Bottomless<br>Mimosas</div>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO STRIP -->
+<div class="photo-strip">
+  <div class="photo-strip-img"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/4adf157f-1266-4ad7-9c45-4aae1c567a53/mimosa-bottle.png" alt="Mimosa" loading="lazy"></div>
+  <div class="photo-strip-img"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/0e905f32-c644-4d3f-89f5-30489160d6ef/chicken-waffles-brunch.jpg" alt="Chicken & Waffles" loading="lazy"></div>
+  <div class="photo-strip-img"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/f252a3cb-57a4-4a98-a668-ca3522013b15/chilaquiles-taproom.png" alt="Chilaquiles" loading="lazy"></div>
+</div>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+
+  <!-- DRINKS -->
+  <div class="menu-section-heading"><span class="msh-icon">🍹</span><h2 class="msh-title">Drinks</h2></div>
+  <div class="drinks-grid">
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">Mimosa</div><div class="drink-desc">Choice of: mango / pomegranate / grapefruit / OJ</div></div><div class="drink-price">8</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">Mimosa Flight</div><div class="drink-desc">Seasonal juices — ask our team</div></div><div class="drink-price">18</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">TapRoom Sangria</div><div class="drink-desc">Red Blend, elderflower infused liquor, fresh citrus</div></div><div class="drink-price">11</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">Michelada</div><div class="drink-desc">Clamato, lime juice, housemade lager, tajin rim</div></div><div class="drink-price">8.5</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">TapRoom Mojito</div><div class="drink-desc">Housemade & served on draft!</div></div><div class="drink-price">11</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">TapRoom Bloody Mary</div><div class="drink-desc">Bloody mary mix, vodka, olives, celery, lime wedge, salt-tajin rim, candied bacon +2</div></div><div class="drink-price">12</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">Cold Brewed Mudslide</div><div class="drink-desc">Nitro cold brew, vodka, espresso liquor, irish cream, marshmallow-dipped oreo</div></div><div class="drink-price">12</div></div>
+    <div class="drink-item"><div class="drink-left"><div class="drink-name">House Cold Brewed Coffee</div><div class="drink-desc">By TRBC</div></div><div class="drink-price">4 / 7</div></div>
+  </div>
+
+  <!-- GRILLED BURRITOS -->
+  <div class="menu-section-heading"><span class="msh-icon">🌯</span><h2 class="msh-title">Grilled Burritos</h2></div>
+  <p style="font-size:0.85rem;color:rgba(245,242,236,0.4);font-style:italic;margin-bottom:20px;">Served with roasted salsa</p>
+  <div class="menu-grid">
+    <div class="menu-item"><div class="item-name">The Breakfast Cali</div><div class="item-desc">Eggs, cheddar jack, fries, steak, avocado, pico, sour cream.</div><div class="item-price">15</div></div>
+    <div class="menu-item"><div class="item-name">Bacon Burrito</div><div class="item-desc">Eggs, bacon, potato, avocado, cheddar jack, chipotle aioli.</div><div class="item-price">14</div></div>
+  </div>
+
+  <!-- EGGS & CLASSICS -->
+  <div class="menu-section-heading"><span class="msh-icon">🍳</span><h2 class="msh-title">Eggs & Classics</h2></div>
+  <div class="menu-grid">
+    <div class="menu-item"><div class="item-name">Chicken & Waffles</div><div class="item-desc">Fried chicken, waffle, fried egg, cinnamon butter, powder sugar, paprika, jalapeño syrup, bacon.</div><div class="item-price">16</div></div>
+    <div class="menu-item"><div class="item-name">Peanut Butter Waffles</div><div class="item-desc">Waffles, peanut butter, seasonal fruit, maple syrup.</div><div class="item-price">14</div></div>
+    <div class="menu-item"><div class="item-name">Chilaquiles</div><div class="item-desc">Fried corn tortillas, pickled onions, avocado crema, cotija, salsa roja, fried egg.</div><div class="item-price">14</div></div>
+    <div class="menu-item"><div class="item-name">Steak & Eggs</div><div class="item-desc">Steak, hash potatoes, red & green peppers, sunny side eggs, chives, paprika, side of roasted red sauce.</div><div class="item-price">18</div></div>
+    <div class="menu-item"><div class="item-name">Avocado Toast</div><div class="item-desc">Sourdough, avocado, cherry tomatoes, pickled red onions, microgreens, crushed red flakes, cotija, sriracha aioli. Add fried egg +2.</div><div class="item-price">Market</div></div>
+    <div class="menu-item"><div class="item-name">Eggwich & House Potatoes</div><div class="item-desc">Potato bun, soft scramble eggs, garlic aioli, cheddar, bacon or turkey sausage, chives. Served with house potatoes.</div><div class="item-price">13</div></div>
+    <div class="menu-item"><div class="item-name">French Toast</div><div class="item-desc">Egg & vanilla battered brioche, housemade whipped cream, shaved Mexican chocolate & seasonal fruit.</div><div class="item-price">14</div></div>
+    <div class="menu-item"><div class="item-name">Egg White Scramble</div><div class="item-desc">Egg whites, onions, mushrooms, spinach, goat cheese, avocado, microgreens + side salad.</div><div class="item-price">14</div></div>
+    <div class="menu-item"><div class="item-name">Eggs Benedict</div><div class="item-desc">English muffin, poached egg, Canadian bacon, hollandaise, house potatoes.</div><div class="item-price">15</div></div>
+    <div class="menu-item"><div class="item-name">Hangover Hash</div><div class="item-desc">Hash potatoes, sunny side eggs, black beans, ham, bacon, roasted jalapeño, grilled onion, cheddar jack, sour cream, cotija, roasted salsa roja. Add soyrizo +2.</div><div class="item-price">14</div></div>
+  </div>
+
+</section>
+
+<!-- B-SIDES -->
+<section class="bsides-section">
+  <div class="menu-section-heading" style="margin-top:0;"><span class="msh-icon">➕</span><h2 class="msh-title">B-Sides</h2></div>
+  <div class="bsides-grid">
+    <div class="bside-chip"><span class="bside-name">Bacon</span><span class="bside-price">5</span></div>
+    <div class="bside-chip"><span class="bside-name">Soyrizo</span><span class="bside-price">3</span></div>
+    <div class="bside-chip"><span class="bside-name">Hash Potatoes</span><span class="bside-price">5</span></div>
+    <div class="bside-chip"><span class="bside-name">Grilled Chicken</span><span class="bside-price">6</span></div>
+    <div class="bside-chip"><span class="bside-name">Steak</span><span class="bside-price">8</span></div>
+    <div class="bside-chip"><span class="bside-name">2 Eggs</span><span class="bside-price">5</span></div>
+    <div class="bside-chip"><span class="bside-name">Toast</span><span class="bside-price">2</span></div>
+  </div>
+</section>
+
+<!-- KIDDOS -->
+<section class="kiddos-section">
+  <div class="menu-section-heading" style="margin-top:0;"><span class="msh-icon">🧇</span><h2 class="msh-title">Kiddos</h2></div>
+  <div class="bsides-grid" style="margin-top:0;">
+    <div class="bside-chip"><span class="bside-name">Waffle & Butter</span><span class="bside-price">7</span></div>
+    <div class="bside-chip"><span class="bside-name">Scrambled Eggs</span><span class="bside-price">7</span></div>
+    <div class="bside-chip"><span class="bside-name">French Toast</span><span class="bside-price">7</span></div>
+  </div>
+  <p style="font-size:0.85rem;color:rgba(245,242,236,0.35);font-style:italic;margin-top:20px;">+ Lots of lunchy items available as well — see full menu for availability.</p>
+</section>
+
+<!-- PDF CTA -->
+<div class="pdf-cta">
+  <div>
+    <h2>Full Brunch Menu PDF</h2>
+    <p>Download the complete current brunch menu including all seasonal items.</p>
+  </div>
+  <a href="https://www.taproombeerco.com/s/TRBC_Brunch_v25.pdf" target="_blank" class="btn-black">Download PDF ↗</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">Brunch Hours</div>
+      <div class="footer-info"><strong style="color:var(--white);">Saturday & Sunday</strong><br>10am – 1:30pm (brunch)<br>10am – 11pm (full day)<br><br>2000 El Cajon Blvd<br><a href="tel:+16195397738">(619) 539-7738</a></div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://taphouse.getkrowd.com/brunch/">Brunch</a><br>
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://taphouse.getkrowd.com/coffee/">Coffee</a><br>
+        <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a><br>
+        <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>🥂 <strong>Brunch time!</strong> Ask me about our mimosa options or today's specials.</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()"><img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat"></div>
+</div>
+
+<script>
+function toggleDrawer(){var d=document.getElementById('mobileDrawer');var h=document.getElementById('hamburger');var open=d.classList.toggle('open');h.classList.toggle('open',open);document.body.style.overflow=open?'hidden':'';}
+document.addEventListener('click',function(e){var d=document.getElementById('mobileDrawer');var h=document.getElementById('hamburger');if(d&&d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');document.body.style.overflow='';}});
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
