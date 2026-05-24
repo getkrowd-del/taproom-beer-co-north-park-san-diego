@@ -2,8 +2,6 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
-
-/* NAV */
 nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,10,10,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.07);}
 .nav-inner{display:flex;align-items:center;justify-content:center;height:100%;position:relative;max-width:1400px;margin:0 auto;padding:0 32px;}
 .nav-left{display:flex;gap:32px;align-items:center;margin-right:48px;}
@@ -25,14 +23,28 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 .dropdown:hover .dropdown-menu{display:block;}
 .dropdown-menu a{display:block;padding:10px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:2px;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;white-space:nowrap;transition:color 0.2s,background 0.2s;}
 .dropdown-menu a:hover{color:var(--lime);background:rgba(197,230,0,0.07);}
-.nav-mobile-logo{display:none;height:48px;object-fit:contain;filter:brightness(1.1);}
-@media(max-width:900px){.nav-inner{justify-content:space-between;padding:0 20px;}.nav-left,.nav-right{display:none;}.nav-logo{display:none;}.nav-mobile-logo{display:block;}}
+/* MOBILE NAV */
+.nav-mobile{display:none;align-items:center;justify-content:space-between;width:100%;padding:0 20px;height:76px;}
+.nav-mobile-logo img{height:44px;object-fit:contain;filter:brightness(1.1);}
+.hamburger{background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px;}
+.hamburger span{display:block;width:24px;height:2px;background:#f5f2ec;border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+.mobile-drawer{display:none;position:fixed;top:76px;left:0;right:0;bottom:0;background:rgba(10,10,10,0.99);z-index:998;overflow-y:auto;padding:8px 0 60px;}
+.mobile-drawer.open{display:block;}
+.mob-section-label{font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:rgba(197,230,0,0.5);padding:20px 24px 6px;display:block;}
+.mob-link{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.05rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,242,236,0.8);text-decoration:none;padding:15px 24px;border-bottom:1px solid rgba(255,255,255,0.05);transition:color 0.2s,background 0.2s;}
+.mob-link:hover,.mob-link.mob-active{color:#c5e600;background:rgba(197,230,0,0.04);}
+.mob-sub-link{display:block;font-family:'Barlow Condensed',sans-serif;font-size:0.88rem;letter-spacing:2px;text-transform:uppercase;color:rgba(245,242,236,0.5);text-decoration:none;padding:12px 24px 12px 40px;border-bottom:1px solid rgba(255,255,255,0.03);}
+.mob-sub-link:hover{color:#c5e600;}
+.mob-cta-wrap{padding:20px 24px 0;}
+.mob-cta{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:3px;text-transform:uppercase;padding:16px;background:#c5e600;color:#0a0a0a;text-decoration:none;border-radius:2px;text-align:center;}
+@media(max-width:900px){.nav-inner{display:none!important;}.nav-mobile{display:flex!important;}}
 
 /* HERO */
 .page-hero{padding:0;background:var(--charcoal);position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.06);min-height:88vh;display:flex;align-items:flex-end;}
-.hero-bg{position:absolute;inset:0;background:
-  linear-gradient(to right, rgba(10,10,10,0.92) 45%, rgba(10,10,10,0.3) 100%),
-  url('https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1725588097567-DGOVVNV76QB6368F4POA/coffee-shop-northpark.png') center/cover no-repeat;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(to right, rgba(10,10,10,0.92) 45%, rgba(10,10,10,0.3) 100%),url('https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1725588097567-DGOVVNV76QB6368F4POA/coffee-shop-northpark.png') center/cover no-repeat;}
 .hero-content{position:relative;z-index:2;padding:140px 80px 80px;width:100%;}
 .section-label{font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:6px;text-transform:uppercase;color:var(--coffee);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
 .section-label::before{content:'';display:block;width:28px;height:2px;background:var(--coffee);}
@@ -42,7 +54,6 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 .hero-partner-label{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(245,242,236,0.5);}
 .hero-partner-name{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coffee);}
 .hero-hours{display:inline-flex;align-items:center;gap:20px;background:rgba(200,169,126,0.1);border:1px solid rgba(200,169,126,0.3);border-radius:2px;padding:14px 24px;flex-wrap:wrap;}
-.hour-block{}
 .hour-day{font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--coffee);margin-bottom:2px;}
 .hour-time{font-size:1.05rem;color:var(--white);font-weight:600;}
 .hour-divider{width:1px;height:36px;background:rgba(200,169,126,0.3);}
@@ -65,8 +76,6 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 
 /* MENU SECTION */
 .menu-section{background:var(--black);}
-
-/* STICKY MENU NAV */
 .menu-nav-wrap{position:sticky;top:76px;z-index:900;background:rgba(10,10,10,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.08);}
 .menu-nav{display:flex;overflow-x:auto;max-width:1400px;margin:0 auto;padding:0 48px;scrollbar-width:none;}
 .menu-nav::-webkit-scrollbar{display:none;}
@@ -76,23 +85,16 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 .mnav-btn.active{color:var(--coffee);}
 .mnav-btn.active::after{transform:scaleX(1);}
 @media(max-width:768px){.menu-nav{padding:0 16px;}}
-
-/* MENU BODY */
 .menu-body{max-width:1400px;margin:0 auto;padding:60px 80px 100px;}
 @media(max-width:768px){.menu-body{padding:40px 24px 80px;}}
-
-/* MENU CATEGORY */
 .menu-cat{margin-bottom:64px;}
 .menu-cat[style*="display:none"]{display:none!important;}
 .cat-head{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.07);}
 .cat-head-icon{font-size:1.5rem;}
 .cat-head-name{font-family:'Anton',sans-serif;font-size:clamp(2rem,3.5vw,3rem);text-transform:uppercase;color:var(--white);line-height:1;}
 .cat-head-sub{font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(200,169,126,0.6);margin-left:auto;}
-
-/* ITEM ROWS — coffee menu is list-style not card grid */
 .menu-items{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
 @media(max-width:860px){.menu-items{grid-template-columns:1fr;}}
-
 .menu-item{background:var(--charcoal);border:1px solid rgba(255,255,255,0.05);padding:20px 24px;display:flex;align-items:baseline;justify-content:space-between;gap:16px;transition:border-color 0.2s,background 0.2s;}
 .menu-item:hover{border-color:rgba(200,169,126,0.25);background:#191919;}
 .item-left{flex:1;}
@@ -101,26 +103,18 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 .item-prices{display:flex;gap:12px;flex-shrink:0;align-items:center;}
 .price-tag{font-family:'Anton',sans-serif;font-size:1.1rem;color:var(--coffee);line-height:1;}
 .price-size{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(245,242,236,0.35);display:block;text-align:center;margin-top:1px;}
-
-/* SIGNATURE HIGHLIGHT */
 .menu-item.signature{border-left:3px solid var(--coffee);background:rgba(200,169,126,0.04);}
 .menu-item.signature .item-name{color:var(--coffee);}
-
-/* EXTRAS / ADD-ONS */
 .extras-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;}
 @media(max-width:768px){.extras-grid{grid-template-columns:1fr 1fr;}}
 .extra-chip{background:var(--charcoal);border:1px solid rgba(255,255,255,0.05);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;transition:border-color 0.2s;}
 .extra-chip:hover{border-color:rgba(200,169,126,0.2);}
 .extra-name{font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(245,242,236,0.65);}
 .extra-price{font-family:'Anton',sans-serif;font-size:0.9rem;color:var(--coffee);}
-
-/* FOOD NOTE */
 .food-note{background:rgba(200,169,126,0.06);border:1px solid rgba(200,169,126,0.2);border-radius:2px;padding:24px 28px;margin-bottom:40px;display:flex;align-items:center;gap:16px;}
 .food-note-icon{font-size:1.6rem;flex-shrink:0;}
 .food-note-text{font-size:0.92rem;color:rgba(245,242,236,0.65);line-height:1.7;}
 .food-note-text strong{color:var(--white);}
-
-/* PHOTO STRIP */
 .photo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(--dark);padding:0;}
 .photo-strip-img{aspect-ratio:4/3;overflow:hidden;background:var(--charcoal);}
 .photo-strip-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;filter:brightness(0.85);}
@@ -142,8 +136,6 @@ footer{background:#050505;padding:72px 80px 40px;border-top:1px solid rgba(255,2
 .footer-social a{width:38px;height:38px;border:1px solid rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(245,242,236,0.5);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;transition:border-color 0.2s,color 0.2s;}
 .footer-social a:hover{border-color:var(--lime);color:var(--lime);}
 @media(max-width:960px){.footer-top{grid-template-columns:1fr 1fr;}footer{padding:56px 24px 32px;}}
-
-/* CHAT */
 #tr-chat-wrapper{position:fixed;bottom:16px;right:16px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
 #tr-chat-popout{background:#1c1c1c;border:1px solid rgba(197,230,0,0.35);border-radius:16px 16px 4px 16px;padding:13px 36px 13px 16px;max-width:230px;box-shadow:0 8px 28px rgba(0,0,0,0.65);position:relative;transform-origin:bottom right;animation:popIn 0.45s cubic-bezier(0.175,0.885,0.32,1.275) forwards;}
 #tr-chat-popout.hide{animation:popOut 0.22s ease forwards;pointer-events:none;}
