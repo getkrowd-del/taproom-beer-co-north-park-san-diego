@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Our Story | TapRoom Beer Co. – North Park San Diego</title>
+<meta name="description" content="Discover the story of TapRoom Beer Co. Founded by brothers Kevin and Kyle Conover. World-class neighborhood brewery &amp; restaurant in the heart of North Park, San Diego since 2006." />
+<meta property="og:title" content="Our Story | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:description" content="Discover the story of TapRoom Beer Co. Founded by brothers Kevin and Kyle Conover. World-class neighborhood brewery &amp; restaurant in the heart of North Park, San Diego since 2006." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Our Story | TapRoom Beer Co. – North Park San Diego" />
+<meta name="twitter:description" content="Discover the story of TapRoom Beer Co. Founded by brothers Kevin and Kyle Conover. World-class neighborhood brewery &amp; restaurant in the heart of North Park, San Diego since 2006." />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4279');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='W6YdJGS';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://taphouse.getkrowd.com/wines/">Wines</a>
+          <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
+          <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/">Food</a>
+      <a href="https://taphouse.getkrowd.com/coffee/">Coffee</a>
+      <a href="https://taphouse.getkrowd.com/brunch/">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
+      <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a>
+      <a href="https://taphouse.getkrowd.com/our-story/" class="nav-active">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+  </div>
+  <div class="nav-mobile">
+    <a href="https://taphouse.getkrowd.com/" class="nav-mobile-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <span class="mob-section-label">🍺 Beer</span>
+  <a href="https://taphouse.getkrowd.com/beer/" class="mob-link">Beer List</a>
+  <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank" class="mob-sub-link">Guest Beer, Cocktails & Cider ↗</a>
+  <a href="https://taphouse.getkrowd.com/wines/" class="mob-sub-link">Wines</a>
+  <a href="https://taphouse.getkrowd.com/kegs/" class="mob-sub-link">Kegs</a>
+  <a href="https://taphouse.getkrowd.com/partners/" class="mob-sub-link">Find Our Beer</a>
+  <span class="mob-section-label">🍕 Food & Drinks</span>
+  <a href="https://taphouse.getkrowd.com/menu/" class="mob-link">Food Menu</a>
+  <a href="https://taphouse.getkrowd.com/coffee/" class="mob-link">Coffee</a>
+  <a href="https://taphouse.getkrowd.com/brunch/" class="mob-link">Brunch</a>
+  <span class="mob-section-label">📅 Visit Us</span>
+  <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank" class="mob-link">Reservations ↗</a>
+  <a href="https://taphouse.getkrowd.com/private-events/" class="mob-link">Private Events</a>
+  <a href="https://taphouse.getkrowd.com/our-story/" class="mob-link mob-active">About</a>
+  <a href="https://www.sdtaproom.com/" target="_blank" class="mob-link">PB Location ↗</a>
+  <span class="mob-section-label">✉️ Contact</span>
+  <a href="https://taphouse.getkrowd.com/contact/" class="mob-link">Contact Us</a>
+  <a href="https://taphouse.getkrowd.com/employment/" class="mob-link">Employment</a>
+  <a href="https://taphouse.getkrowd.com/fundraisers/" class="mob-link">Fundraisers</a>
+  <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank" class="mob-link">Gift Cards ↗</a>
+  <div class="mob-cta-wrap"><a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="mob-cta">Order Online</a></div>
+</div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="section-label">North Park · San Diego · Est. 2006</div>
+    <h1>Our<br><span>Story.</span></h1>
+    <p class="hero-sub">Local. Independent. Brewing excellence since 2006. A neighborhood brewery born from a passion for craft beer and a love for the San Diego community.</p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">2006</div><div class="hero-stat-label">Founded</div></div>
+      <div><div class="hero-stat-num">50+</div><div class="hero-stat-label">Rotating Taps</div></div>
+      <div><div class="hero-stat-num">2</div><div class="hero-stat-label">Locations</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY: SD TAPROOM ORIGINS -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-img">
+      <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1688617731883-J74AX8M4RZE6DP8382TA/TAPROOM19-1.jpeg" alt="TapRoom Beer Co History" loading="lazy">
+      <div class="story-img-overlay"><span class="story-img-tag">San Diego Craft Beer Revolution</span></div>
+    </div>
+    <div class="story-text">
+      <div class="story-label">Where It All Started</div>
+      <h2 class="story-title">Born From a<br>Love of<br>Craft Beer.</h2>
+      <div class="story-body">
+        <p>SD TapRoom was founded in the early years of the San Diego Craft Beer Revolution by brothers <strong style="color:var(--white);">Kevin and Kyle Conover</strong>. As avid homebrewers and participants in the emerging craft beer scene, they came up with an idea to create one of San Diego's first local craft beer focused establishments.</p>
+        <p>Their original beer bar in Pacific Beach offers a unique experience that allows 150+ local craft breweries to showcase their products, alongside elevated bar food and a casual, local community vibe. SD TapRoom has made its way as one of the most recognized, respected, and successful craft beer establishments in San Diego.</p>
+      </div>
+      <div class="story-cta">
+        <a href="https://www.sdtaproom.com/" target="_blank" class="btn-lime">Visit PB Location ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY: BREWERY -->
+<section class="story-section">
+  <div class="story-inner reverse">
+    <div class="story-img">
+      <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/159aa303-7011-4fac-9126-59b1d0e73a1e/About-Image.jpeg" alt="TapRoom Brewery North Park" loading="lazy">
+      <div class="story-img-overlay"><span class="story-img-tag">World-Class Neighborhood Brewery</span></div>
+    </div>
+    <div class="story-text">
+      <div class="story-label">The North Park Chapter</div>
+      <h2 class="story-title">Our Brewery<br>& Eatery.</h2>
+      <div class="story-body">
+        <p>After founding one of San Diego's longest standing craft beer bars, Kevin and Kyle Conover set out to establish a world class, neighborhood brewery & restaurant in the heart of North Park.</p>
+        <p>TapRoom Beer Company is a casual neighborhood brewery and restaurant featuring <strong style="color:var(--white);">50 taps</strong> — half featuring in-house brews, half local guest beers that mirror the proven draft list from SD TapRoom. Our focus is on West Coast San Diego style beers, but our draft list includes a rotating variety of IPAs, Pale Ales, lagers, Imperial Stouts, and Belgian Ales.</p>
+        <p>We have always created everything in the spirit of <strong style="color:var(--white);">collaboration, innovation, independence and tradition</strong>. We brew for our friends, our neighbors, our community, and our family — but also for ourselves. It's truly our passion, and we love sharing that passion with San Diego.</p>
+      </div>
+      <div class="story-cta">
+        <a href="https://taphouse.getkrowd.com/beer/" class="btn-lime">See Our Beer List</a>
+        <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" target="_blank" class="btn-outline">Order Online</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY: BREWER -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-img">
+      <img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/b92a17fc-15af-477c-a7d0-eca42eac5f8f/dan-cady-brewmaster.jpeg" alt="Daniel Cady Head Brewer TapRoom" loading="lazy">
+      <div class="story-img-overlay"><span class="story-img-tag">Daniel Cady — Head Brewer</span></div>
+    </div>
+    <div class="story-text">
+      <div class="story-label">The Brains Behind the Beer</div>
+      <h2 class="story-title">Brewing Led By<br>The Best<br>In The Game.</h2>
+      <div class="story-body">
+        <p>Brewing operations are led by <strong style="color:var(--white);">Daniel Cady</strong>, former head brewer of <strong style="color:var(--white);">Mikkeller</strong> — one of the most celebrated craft breweries in the world. Cady brings years of experience brewing a wide range of styles alongside numerous awards under his barrel aging program.</p>
+        <p>His technical prowess and level of creativity create a very unique skillset that comes through in every single beer we put on tap. From hop-forward West Coast IPAs to complex barrel-aged Imperial Stouts, every pour is the result of relentless craft and genuine passion.</p>
+        <p>The result? <strong style="color:var(--lime);">Award-winning beers</strong> that have earned recognition at GABF, the Brewers Cup of California, the U.S. Open Beer Championship, and beyond.</p>
+      </div>
+      <div class="story-cta">
+        <a href="https://taphouse.getkrowd.com/beer/" class="btn-lime">View Award-Winning Beers</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+  <div class="values-label">What Drives Us</div>
+  <h2 class="values-title">Our Values.</h2>
+  <div class="values-grid">
+    <div class="val-card"><span class="val-num">01</span><div class="val-title">Community First</div><p class="val-desc">We brew for our friends, neighbors, family, and community. TapRoom is more than a brewery — it's a neighborhood gathering place where San Diego comes together.</p></div>
+    <div class="val-card"><span class="val-num">02</span><div class="val-title">Craft & Excellence</div><p class="val-desc">As brewers, beer lovers, and advocates of exceptional beer, we take great pride in every finished product. We don't compromise on quality — ever.</p></div>
+    <div class="val-card"><span class="val-num">03</span><div class="val-title">Collaboration</div><p class="val-desc">Everything we do is in the spirit of collaboration, innovation, independence, and tradition. Some of our best beers have been born from working with brewers we admire around the world.</p></div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div>
+    <h2>Come Find Out<br><span>What We're About.</span></h2>
+    <p>2000 El Cajon Blvd, North Park. Mon–Fri 11am–11pm, Sat & Sun 10am–11pm. Bring the crew — or just yourself.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank" class="btn-lime">Reserve a Table</a>
+    <a href="https://taphouse.getkrowd.com/contact/" class="btn-outline">Contact Us</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">North Park</div>
+      <div class="footer-info">2000 El Cajon Blvd<br>San Diego, CA 92104<br><a href="tel:+16195397738">(619) 539-7738</a><br>Mon–Fri: 11am–11pm<br>Sat & Sun: 10am–11pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://taphouse.getkrowd.com/beer/">Beer List</a><br>
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://taphouse.getkrowd.com/brunch/">Brunch</a><br>
+        <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a><br>
+        <a href="https://taphouse.getkrowd.com/employment/">Employment</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>🍺 <strong>Welcome to TapRoom!</strong> Ask me anything about our story, beers, or how to visit.</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()"><img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat"></div>
+</div>
+
+<script>
+function toggleDrawer(){var d=document.getElementById('mobileDrawer');var h=document.getElementById('hamburger');var open=d.classList.toggle('open');h.classList.toggle('open',open);document.body.style.overflow=open?'hidden':'';}
+document.addEventListener('click',function(e){var d=document.getElementById('mobileDrawer');var h=document.getElementById('hamburger');if(d&&d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');document.body.style.overflow='';}});
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
