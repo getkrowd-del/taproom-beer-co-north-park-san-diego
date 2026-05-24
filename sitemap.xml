@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://taphouse.getkrowd.com/beer/</loc>
-    <lastmod>2026-05-24T03:48:33.430Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://taphouse.getkrowd.com/menu/</loc>
-    <lastmod>2026-05-24T02:41:07.489Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://taphouse.getkrowd.com/wines/</loc>
-    <lastmod>2026-05-24T02:40:53.625Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://taphouse.getkrowd.com/kegs/</loc>
-    <lastmod>2026-05-23T23:24:17.027Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://taphouse.getkrowd.com/coffee/</loc>
-    <lastmod>2026-05-23T22:49:37.569Z</lastmod>
+    <loc>https://taphouse.getkrowd.com/</loc>
+    <lastmod>2026-05-24T11:43:40.107Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://taphouse.getkrowd.com/partners/</loc>
-    <lastmod>2026-05-23T21:18:27.011Z</lastmod>
+    <lastmod>2026-05-24T11:42:35.939Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://taphouse.getkrowd.com/fundraisers/</loc>
-    <lastmod>2026-05-23T18:14:19.636Z</lastmod>
+    <loc>https://taphouse.getkrowd.com/coffee/</loc>
+    <lastmod>2026-05-24T11:40:55.723Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://taphouse.getkrowd.com/employment/</loc>
-    <lastmod>2026-05-23T18:14:11.964Z</lastmod>
+    <loc>https://taphouse.getkrowd.com/kegs/</loc>
+    <lastmod>2026-05-24T11:40:08.725Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://taphouse.getkrowd.com/wines/</loc>
+    <lastmod>2026-05-24T11:40:01.076Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://taphouse.getkrowd.com/contact/</loc>
-    <lastmod>2026-05-23T18:14:04.021Z</lastmod>
+    <lastmod>2026-05-24T11:36:09.855Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://taphouse.getkrowd.com/</loc>
-    <lastmod>2026-05-23T18:13:55.340Z</lastmod>
+    <loc>https://taphouse.getkrowd.com/employment/</loc>
+    <lastmod>2026-05-24T11:35:33.010Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://taphouse.getkrowd.com/fundraisers/</loc>
+    <lastmod>2026-05-24T11:33:54.366Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://taphouse.getkrowd.com/menu/</loc>
+    <lastmod>2026-05-24T11:33:18.022Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://taphouse.getkrowd.com/beer/</loc>
+    <lastmod>2026-05-24T03:48:33.430Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
