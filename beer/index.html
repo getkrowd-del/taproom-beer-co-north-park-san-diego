@@ -213,14 +213,14 @@
         <div class="dropdown-menu">
           <a href="https://taphouse.getkrowd.com/beer/" class="dm-active">Beer</a>
           <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
-          <a href="https://www.taproombeerco.com/wines">Wines</a>
+          <a href="https://taphouse.getkrowd.com/wines/">Wines</a>
           <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
           <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a>
         </div>
       </div>
       <a href="https://taphouse.getkrowd.com/menu/">Food</a>
       <a href="https://taphouse.getkrowd.com/coffee/">Coffee</a>
-      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
+      <a href="https://taphouse.getkrowd.com/brunch/">Brunch</a>
       <div class="dropdown">
         <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
         <div class="dropdown-menu">
@@ -237,7 +237,7 @@
     <div class="nav-right">
       <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
       <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a>
-      <a href="https://www.taproombeerco.com/our-story">About</a>
+      <a href="https://taphouse.getkrowd.com/our-story/">About</a>
       <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
       <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
     </div>
@@ -245,7 +245,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="page-hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
@@ -264,7 +263,6 @@
   </div>
 </section>
 
-<!-- AWARDS TICKER -->
 <div class="awards-bar">
   <div class="awards-track">
     <span class="award-item">PB Haze — GABF Gold '23</span>
@@ -284,30 +282,24 @@
   </div>
 </div>
 
-<!-- FILTER BAR -->
 <div class="filter-bar" id="beers">
   <div class="filter-inner">
-    <button class="filter-btn active" data-filter="all" onclick="filterBeers('all')">🍺 All Beers</button>
-    <button class="filter-btn" data-filter="ipa" onclick="filterBeers('ipa')">🌿 IPAs</button>
+    <button class="filter-btn active" data-filter="all" onclick="filterBeers('all')">🍺 All</button>
+    <button class="filter-btn" data-filter="hop" onclick="filterBeers('hop')">🌿 Hop Forward</button>
     <button class="filter-btn" data-filter="lager" onclick="filterBeers('lager')">🌾 Lagers & Easy</button>
-    <button class="filter-btn" data-filter="sour" onclick="filterBeers('sour')">🍋 Sours</button>
-    <button class="filter-btn" data-filter="stout" onclick="filterBeers('stout')">🖤 Stouts & Dark</button>
-    <button class="filter-btn" data-filter="guest" onclick="filterBeers('guest')">🤝 Guest Taps</button>
+    <button class="filter-btn" data-filter="fun" onclick="filterBeers('fun')">🎉 Fun & Exciting</button>
     <button class="filter-btn" data-filter="collab" onclick="filterBeers('collab')">🤜 Collabs</button>
+    <button class="filter-btn" data-filter="award" onclick="filterBeers('award')">★ Award Winners</button>
   </div>
 </div>
 
-<!-- BEER GRID -->
-<section class="beer-section">
-  <div class="beer-grid" id="beerGrid">
-    <div class="beer-loading">
-      <div class="spinner"></div>
-      <p>Loading tap list…</p>
-    </div>
+<section class="beer-section" id="beerBody">
+  <div class="beer-loading" id="beerLoading">
+    <div class="spinner"></div>
+    <p>Loading tap list…</p>
   </div>
 </section>
 
-<!-- GUEST BEER CTA -->
 <section class="guest-cta">
   <div class="guest-cta-text">
     <h2>Also Pouring:<br><span style="color:var(--lime)">Guest Beer,<br>Cocktails & Cider.</span></h2>
@@ -315,11 +307,10 @@
   </div>
   <div class="guest-cta-btns">
     <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank" class="btn-lime">Download Guest Beer List</a>
-    <a href="https://www.taproombeerco.com/wines" class="btn-outline">View Wines</a>
+    <a href="https://taphouse.getkrowd.com/wines/" class="btn-outline">View Wines</a>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div>
@@ -338,10 +329,10 @@
       <div class="footer-h">Quick Links</div>
       <div class="footer-info">
         <a href="https://taphouse.getkrowd.com/beer/">Beer List</a><br>
+        <a href="https://taphouse.getkrowd.com/wines/">Wines</a><br>
         <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
         <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a><br>
         <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a><br>
-        <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a><br>
         <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
       </div>
     </div>
@@ -355,7 +346,6 @@
   </div>
 </footer>
 
-<!-- CHAT -->
 <div id="tr-chat-wrapper">
   <div id="tr-chat-popout">
     <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
@@ -369,105 +359,148 @@
 <script>
 var KROWD_BEER_URL = 'https://api.getkrowd.com/v3/beer/index.cfm?companyId=1110&apiKey=krwd_fd6a9bdbc7c6adb43d3f6f1ba812c4a2365f9ea520de24f81c3969e91ac';
 
-/* ── Tag beers for filtering ── */
+/* ── Section definitions matching Squarespace titles ── */
+var SECTIONS = [
+  { key:'hop',   title:'Hop Forward & Flavorful', icon:'🌿',
+    match: function(b){ var c=(b.style||b.type||b.category||'').toLowerCase(); var n=(b.name||'').toLowerCase();
+      return /ipa|india pale|hazy|dipa|double india|pale ale|west coast ipa|cold ipa|wcipa/.test(c+' '+n); } },
+  { key:'lager', title:'Lagers & Easy-Drinking',  icon:'🌾',
+    match: function(b){ var c=(b.style||b.type||b.category||'').toLowerCase();
+      return /lager|pilsner|helles|blonde|honey ale|wheat|kölsch|cream ale/.test(c); } },
+  { key:'fun',   title:'Fun & Exciting',           icon:'🎉',
+    match: function(b){ var c=(b.style||b.type||b.category||'').toLowerCase();
+      return /stout|porter|sour|gose|berliner|fruited|tart|imperial|barrel/.test(c); } }
+];
+
 function tagBeer(b) {
-  var name = (b.name || '').toLowerCase();
-  var style = (b.style || b.type || b.category || '').toLowerCase();
-  var desc = (b.description || '').toLowerCase();
-  var combined = name + ' ' + style + ' ' + desc;
   var tags = [];
-  if (/ipa|india pale|hazy|dipa|double india|pale ale|west coast ipa|cold ipa|wcipa/.test(combined)) tags.push('ipa');
-  if (/lager|pilsner|helles|blonde|honey ale|wheat|kölsch|cream ale/.test(combined)) tags.push('lager');
-  if (/sour|gose|berliner|fruited|tart|lambic/.test(combined)) tags.push('sour');
-  if (/stout|porter|dark|imperial stout|barrel/.test(combined)) tags.push('stout');
-  if (/collab|collaboration/.test(combined)) tags.push('collab');
-  if (b.brewery && b.brewery.toLowerCase() !== 'taproom beer co' && b.brewery.toLowerCase() !== 'taproom') tags.push('guest');
-  if (tags.length === 0) tags.push('ipa'); // default
+  SECTIONS.forEach(function(s){ if(s.match(b)) tags.push(s.key); });
+  if ((b.award||b.awards||'').length > 0) tags.push('award');
+  var desc = (b.description||'').toLowerCase();
+  if (/collab|collaboration/.test(desc)) tags.push('collab');
+  if (tags.length === 0) tags.push('hop');
   return tags;
 }
 
 function renderBeers(beers) {
-  var grid = document.getElementById('beerGrid');
-  if (!beers.length) {
-    grid.innerHTML = '<div class="beer-loading"><p>Stop in to see what\'s pouring — 50 taps always rotating.</p></div>';
-    return;
-  }
-  var html = '';
+  var body = document.getElementById('beerBody');
+  body.innerHTML = '';
+
+  /* Group beers into sections */
+  var sectionMap = { hop:[], lager:[], fun:[], uncategorized:[] };
+  var allCards = [];
+
   beers.forEach(function(b) {
     var tags = tagBeer(b);
-    var name = b.name || '';
-    var style = b.style || b.type || b.category || '';
-    var abv = b.abv ? parseFloat(b.abv).toFixed(1) : null;
-    var desc = b.description || '';
-    var brewery = b.brewery || '';
-    var award = b.award || b.awards || '';
-    var price = b.price || b.pricing || '';
-
-    html += '<div class="beer-card" data-tags="' + tags.join(',') + '">';
-    if (style) html += '<div class="bc-style">' + style + '</div>';
-    html += '<div class="bc-name">' + name + '</div>';
-    if (brewery && brewery.toLowerCase() !== 'taproom beer co' && brewery.toLowerCase() !== 'taproom') {
-      html += '<div class="bc-brewery">' + brewery + '</div>';
-    }
-    if (award) html += '<div class="bc-award">' + award + '</div>';
-    if (desc) html += '<p class="bc-desc">' + desc + '</p>';
-    html += '<div class="bc-footer">';
-    if (abv) {
-      html += '<div><div class="bc-abv">' + abv + '%</div><div class="bc-abv-label">ABV</div></div>';
-    }
-    if (price) html += '<div class="bc-price">' + price + '</div>';
-    html += '</div></div>';
+    var cardHtml = buildCard(b, tags);
+    allCards.push({ html: cardHtml, tags: tags, section: tags[0] || 'uncategorized' });
+    (sectionMap[tags[0]] || sectionMap.uncategorized).push({ html: cardHtml, tags: tags });
   });
-  grid.innerHTML = html;
+
+  /* Render section by section */
+  SECTIONS.forEach(function(sec) {
+    var items = sectionMap[sec.key] || [];
+    if (!items.length) return;
+
+    var heading = document.createElement('div');
+    heading.className = 'beer-section-heading';
+    heading.dataset.section = sec.key;
+    heading.innerHTML = '<span class="bsh-icon">'+sec.icon+'</span>'
+      + '<h2 class="bsh-title">'+sec.title+'</h2>'
+      + '<span class="bsh-count">'+items.length+' beer'+(items.length!==1?'s':'')+'</span>';
+    body.appendChild(heading);
+
+    var grid = document.createElement('div');
+    grid.className = 'beer-grid';
+    grid.dataset.section = sec.key;
+    items.forEach(function(item){
+      var div = document.createElement('div');
+      div.innerHTML = item.html;
+      var card = div.firstChild;
+      card.dataset.tags = item.tags.join(',');
+      grid.appendChild(card);
+    });
+    body.appendChild(grid);
+  });
+
+  if (!body.children.length) {
+    body.innerHTML = '<div class="beer-loading"><p>Stop in to see what\'s pouring — 50 taps always rotating.</p></div>';
+  }
 }
 
-/* ── Fallback: static list from Squarespace ── */
+function buildCard(b, tags) {
+  var name    = b.name || '';
+  var style   = b.style || b.type || b.category || '';
+  var abv     = b.abv ? parseFloat(b.abv).toFixed(1) : null;
+  var desc    = b.description || '';
+  var brewery = b.brewery || '';
+  var award   = b.award || b.awards || '';
+  var price   = b.price || b.pricing || '';
+  var html = '<div class="beer-card">';
+  if (style) html += '<div class="bc-style">'+style+'</div>';
+  html += '<div class="bc-name">'+name+'</div>';
+  if (brewery && !/taproom/i.test(brewery)) html += '<div class="bc-brewery">'+brewery+'</div>';
+  if (award) html += '<div class="bc-award">'+award+'</div>';
+  if (desc) html += '<p class="bc-desc">'+desc+'</p>';
+  html += '<div class="bc-footer">';
+  if (abv) html += '<div><div class="bc-abv">'+abv+'%</div><div class="bc-abv-label">ABV</div></div>';
+  if (price) html += '<div class="bc-price">'+price+'</div>';
+  html += '</div></div>';
+  return html;
+}
+
+function filterBeers(filter) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.filter===filter); });
+  document.querySelectorAll('.beer-card').forEach(function(card){
+    var tags = (card.dataset.tags||'').split(',');
+    card.style.display = (filter==='all' || tags.indexOf(filter)!==-1) ? '' : 'none';
+  });
+  document.querySelectorAll('.beer-section-heading, .beer-grid').forEach(function(el){
+    if (filter === 'all') { el.style.display = ''; return; }
+    var sec = el.dataset.section;
+    var grid = document.querySelector('.beer-grid[data-section="'+sec+'"]');
+    var hasVisible = grid && Array.from(grid.querySelectorAll('.beer-card')).some(function(c){ return c.style.display!=='none'; });
+    el.style.display = hasVisible ? '' : 'none';
+  });
+}
+
+/* Static fallback */
 var STATIC_BEERS = [
   {name:"PB Haze",style:"Hazy IPA",abv:"7",description:"Hopped intently with Citra, Motueka, El Dorado & Mosaic. Expect a complex aroma profile & refreshing drinkability.",award:"GABF Gold '23 · Brewers Cup of CA Gold '23 · Best of Craft Beer Awards Silver '24",price:"3 / 8"},
-  {name:"Modern Love",style:"West Coast IPA",abv:"7",description:"WC IPA hopped w/ Nelson Sauvin, Nectaron Cryo, & our fresh 2024 crop selection of Simcoe, and Citra Cryo.",award:"Silver — Best of the West Coast IPA '24 · Silver — SD International Beer Comp '25",price:"4 / 8.5"},
+  {name:"Modern Love",style:"West Coast IPA",abv:"7",description:"WC IPA hopped w/ Nelson Sauvin, Nectaron Cryo, & fresh 2024 crop Simcoe and Citra Cryo.",award:"Silver — Best of the West Coast IPA '24 · Silver — SD International Beer Comp '25",price:"4 / 8.5"},
   {name:"Twilight As My Guide",style:"American Pale Ale",abv:"5.4",description:"Multi-oat Pale Ale Brewed w/ Chinook, Centennial, Cascade, & Simcoe.",price:"4 / 8"},
-  {name:"Early Adopter",style:"Fresh Hop WC DIPA",abv:"8",description:"West Coast Double IPA w/ Citra, Citra Cryo, Simcoe, Strata, & Strata Fresh Hops. Enjoy right now, today.",price:"5 / 9"},
+  {name:"Early Adopter",style:"Fresh Hop WC DIPA",abv:"8",description:"West Coast Double IPA w/ Citra, Citra Cryo, Simcoe, Strata, & Strata Fresh Hops.",price:"5 / 9"},
   {name:"Moon Wobbler",style:"DDH West Coast IPA",abv:"6.7",description:"DDH West Coast IPA | Brewed w/ Mosaic, Mosaic Cryo, Simcoe, Strata, & Columbus Cryo. Dense and rich with oily sticky nugs, concentrated pineapple-strawberry resin, and orange smiles.",price:"4 / 8.5"},
-  {name:"Jagged Hedge",style:"Wet Hop WC DIPA",abv:"",description:"Crop Year 2025 | Fresh Hop West-Coast IPA Brewed w/ Krush Wet Hop from Yakima Chief Hops + Citra Wet Hop from Roy Farms. Embrace the fresh.",price:"5 / 8 (10oz)"},
-  {name:"Until The Night Turns",style:"Cold IPA",abv:"5.9",description:"Collaboration w/ Karl Strauss Brewing Co. | Cold IPA Brewed w/ Pilsner Malt, Malted Corn, and Flaked Rice. Hopped w/ Southern Cross, Motueka, and Mega Terps Blend.",brewery:"Collab w/ Karl Strauss",price:"5 / 9"},
-  {name:"Citra Starburst",style:"Double IPA",abv:"8",description:"WC Double IPA | Brewed w/ hand-selected Citra T90, Citra Cryo, Columbus Cryo & Simcoe.",award:"Back to Back Gold Medal American IPA — NABA Awards 2024 & 2025",price:"4 / 8.5"},
+  {name:"Jagged Hedge",style:"Wet Hop WC DIPA",abv:"",description:"Fresh Hop West-Coast IPA Brewed w/ Krush Wet Hop from Yakima Chief Hops + Citra Wet Hop from Roy Farms.",price:"5 / 8 (10oz)"},
+  {name:"Until The Night Turns",style:"Cold IPA",abv:"5.9",description:"Collaboration w/ Karl Strauss Brewing Co. | Cold IPA Brewed w/ Pilsner Malt, Malted Corn, and Flaked Rice. Hopped w/ Southern Cross, Motueka, and Mega Terps Blend.",price:"5 / 9"},
+  {name:"Citra Starburst",style:"Double IPA",abv:"8",description:"WC Double IPA | Brewed w/ hand-selected Citra T90, Citra Cryo, Columbus Cryo & Simcoe.",award:"Back to Back Gold — NABA Awards 2024 & 2025",price:"4 / 8.5"},
   {name:"R U OK?",style:"Hazy DIPA",abv:"7.8",description:"Hazy Double India Pale Ale | Brewed w/ Tangier, Vic Secret, & Citra Cryo Hops. Intense citrus, creamsicle, and light tropical dankness.",price:"4 / 7.5"},
-  {name:"Dear Traveler",style:"SD-Style Pale Ale",abv:"5.9",description:"Collaboration w/ Gibbon Brewery (Bordeaux, France) | West Coast Pale Ale Brewed w/ Galaxy & Citra Hops.",brewery:"Collab w/ Gibbon Brewery",price:"4 / 8.5"},
+  {name:"Dear Traveler",style:"SD-Style Pale Ale",abv:"5.9",description:"Collaboration w/ Gibbon Brewery (Bordeaux, France) | West Coast Pale Ale Brewed w/ Galaxy & Citra Hops.",price:"4 / 8.5"},
   {name:"Ghost Walking",style:"German Pilsner",abv:"4.6",description:"German Pilsner Brewed w/ Admiral Maltings 'Feldblume' Pilsner Malts & hopped w/ German Hallertau Mittelfruh. Moderate hop bite with clean lager finish.",price:"4 / 8"},
-  {name:"Bee The Buzz",style:"Honey Ale",abv:"5.2",description:"Honey Ale featuring Wildflower Honey from Mikolich Honey | Rich aromas of honey, toasted white bread, orange zest and high fives. Gluten Reduced.",award:"Gold Medal — U.S. Open Beer Championship 2023",price:"4 / 8"},
-  {name:"Digital Chicken",style:"Hoppy Helles Lager",abv:"5.2",description:"Hoppy Helles Brewed w/ Vera Hops — the new public varietal from the Hop Research Council, boasting bouquet of tropical, stonefruit, and berry qualities.",price:"4 / 8"},
+  {name:"Bee The Buzz",style:"Honey Ale",abv:"5.2",description:"Honey Ale featuring Wildflower Honey from Mikolich Honey. Rich aromas of honey, toasted white bread, orange zest and high fives. Gluten Reduced.",award:"Gold Medal — U.S. Open Beer Championship 2023",price:"4 / 8"},
+  {name:"Digital Chicken",style:"Hoppy Helles Lager",abv:"5.2",description:"Hoppy Helles Brewed w/ Vera Hops — new public varietal from the Hop Research Council, boasting bouquet of tropical, stonefruit, and berry qualities.",price:"4 / 8"},
   {name:"Runaway Lawnmower",style:"Blonde Ale",abv:"5.8",description:"Blonde Ale with Amarillo, Cascade and Saaz Hops. Balanced crisp bitterness with notes of floral, biscuit and grapefruit.",price:"4 / 8"},
   {name:"Blacklight Shine",style:"Imperial Stout",abv:"10.2",description:"Imperial Stout Brewed w/ fresh Habanero, smoked Habanero, Guajillo, Ceylon Cinnamon, Peruvian Cacao Nibs, & Tanzania Vanilla Beans. Rich, complex, wizardly.",price:"5 / 9"},
   {name:"PINK",style:"Fruited Sour",abv:"6.5",description:"Fruited Sour Made w/ Dragonfruit, Pineapple, & Passionfruit. Blush colored, vibrant acid, refreshing fruit pop.",price:"4 / 7"},
-  {name:"Complete Apocalypse of Mind Vol. 2",style:"Sour DIPA",abv:"8",description:"Collaboration with False Idol Brewing (Dallas, TX) | Multi-oat/wheat Sour DIPA brewed with milk sugar, strata hops & fermented w/ pineapple, alphonso mango, cara cara orange, coconut, & nutmeg.",brewery:"Collab w/ False Idol Brewing",price:"5 / 9"},
-  {name:"Complete Apocalypse of Mind Vol. 1",style:"Sour IPA",abv:"7.4",description:"Collaboration with Root + Branch Brewing (Copaigue, NY) | Multi-oat/wheat Sour IPA brewed with milk sugar, mosaic hops & fermented w/ balaton cherry, raspberry, & peach.",brewery:"Collab w/ Root + Branch Brewing",price:"5 / 9"},
-  {name:"Lush",style:"Imperial Fruited Sour",abv:"6",description:"Fruited Sour Made w/ Raspberry, Marionberry & Dark Horse Coffee — First debuting in 2015. Tart berries and coffee come together to evoke fond memories of caramelized toaster pastries and Saturday morning cartoons.",price:"4 / 8"},
+  {name:"Complete Apocalypse of Mind Vol. 2",style:"Sour DIPA",abv:"8",description:"Collaboration with False Idol Brewing (Dallas, TX) | Sour DIPA brewed with milk sugar, strata hops & fermented w/ pineapple, alphonso mango, cara cara orange, coconut, & nutmeg.",price:"5 / 9"},
+  {name:"Complete Apocalypse of Mind Vol. 1",style:"Sour IPA",abv:"7.4",description:"Collaboration with Root + Branch Brewing (Copaigue, NY) | Sour IPA brewed with milk sugar, mosaic hops & fermented w/ balaton cherry, raspberry, & peach.",price:"5 / 9"},
+  {name:"Lush",style:"Imperial Fruited Sour",abv:"6",description:"Fruited Sour Made w/ Raspberry, Marionberry & Dark Horse Coffee. Tart berries and coffee come together to evoke fond memories of caramelized toaster pastries and Saturday morning cartoons.",price:"4 / 8"},
   {name:"Uninvited Geometry",style:"Barrel-Aged Imperial Stout",abv:"15",description:"Barrel-aged Imperial Stout Aged in Cognac & Heaven Hill Wheated barrels. Decadent notes of Chocolate, Dark fruit, and Oak.",price:"7 / 14"}
 ];
 
-function filterBeers(filter) {
-  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.filter === filter); });
-  document.querySelectorAll('.beer-card').forEach(function(card){
-    if (filter === 'all') { card.style.display = ''; return; }
-    var tags = (card.dataset.tags || '').split(',');
-    card.style.display = tags.indexOf(filter) !== -1 ? '' : 'none';
-  });
-}
-
-/* ── Fetch from Krowd v3, fall back to static ── */
 fetch(KROWD_BEER_URL)
   .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
   .then(function(data){
     var beers = Array.isArray(data) ? data : (data.beers||data.items||data.data||[]);
     if (!beers.length) throw new Error('empty');
+    document.getElementById('beerLoading').style.display = 'none';
     renderBeers(beers);
   })
   .catch(function(){
-    console.warn('Krowd API unavailable — using static list');
+    document.getElementById('beerLoading').style.display = 'none';
     renderBeers(STATIC_BEERS);
   });
 
-/* ── Chat ── */
 window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
 var chatOpen=false,dismissed=false;
 function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
