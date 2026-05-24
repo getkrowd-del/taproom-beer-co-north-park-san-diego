@@ -19,6 +19,7 @@
 <meta name="twitter:description" content="Award-winning craft beer on tap in North Park, San Diego. 50+ rotating taps including Hazy IPAs, West Coast IPAs, Lagers, Stouts, and Sours." />
 <!-- End SEO Meta Tags -->
 
+
 <script data-field-replace>
 (function(){
   var params=new URLSearchParams(window.location.search);
@@ -177,9 +178,10 @@
     if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
     if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
     var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
     return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
     }).then(function(r){return r.json();}).then(function(d){
       if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
       else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
@@ -297,7 +299,7 @@
       <div><div class="hero-stat-num">2006</div><div class="hero-stat-label">Est. North Park</div></div>
     </div>
     <div class="hero-actions">
-      <a href="#beers" class="btn-lime">See What's on Tap</a>
+      <a target="_blank" href="https://menu.eatdrinklocals.com/index.cfm/1110" class="btn-lime">Personalize Drink Menu ↗</a>
       <a href="https://taphouse.getkrowd.com/kegs/" class="btn-outline">Order a Keg</a>
     </div>
   </div>
@@ -580,5 +582,6 @@ nukeDefault();setInterval(nukeDefault,150);
 new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
 </script>
 <script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+  <script src="script.js"></script>
 </body>
 </html>
