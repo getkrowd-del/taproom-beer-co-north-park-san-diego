@@ -52,7 +52,7 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 
 /* HERO */
 .page-hero{padding:0;background:var(--charcoal);position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.06);min-height:90vh;display:flex;align-items:flex-end;}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.93) 40%,rgba(10,10,10,0.35) 100%),url('https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1729190622083-CWJKMPVJB6NQKL3P2VH8/taproom-beer-company.jpg') center/cover no-repeat;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.93) 40%,rgba(10,10,10,0.35) 100%),url('https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1688617725988-AMW8UQRZ5P986J3QVDU2/employment-photo.jpg?format=1500w') center/cover no-repeat;}
 .hero-content{position:relative;z-index:2;padding:140px 80px 80px;width:100%;}
 .section-label{font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:6px;text-transform:uppercase;color:var(--lime);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
 .section-label::before{content:'';display:block;width:28px;height:2px;background:var(--lime);}
@@ -67,7 +67,7 @@ nav{position:fixed;top:0;width:100%;z-index:1000;height:76px;background:rgba(10,
 .btn-lime:hover{background:var(--lime-dark);transform:translateY(-2px);}
 .btn-outline{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.88rem;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;background:transparent;color:var(--white);text-decoration:none;border:1px solid rgba(255,255,255,0.25);border-radius:2px;transition:border-color 0.2s,color 0.2s;}
 .btn-outline:hover{border-color:var(--lime);color:var(--lime);}
-@media(max-width:768px){.hero-content{padding:120px 24px 60px;}.page-hero{min-height:auto;}.hero-bg{background:linear-gradient(to bottom,rgba(10,10,10,0.5),rgba(10,10,10,0.95)),url('https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1729190622083-CWJKMPVJB6NQKL3P2VH8/taproom-beer-company.jpg') center/cover no-repeat;}.hero-stats{gap:24px;}}
+@media(max-width:768px){.hero-content{padding:120px 24px 60px;}.page-hero{min-height:auto;}.hero-bg{background:linear-gradient(to bottom,rgba(10,10,10,0.5),rgba(10,10,10,0.95)),url('https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/1688617725988-AMW8UQRZ5P986J3QVDU2/employment-photo.jpg?format=1500w') center/cover no-repeat;}.hero-stats{gap:24px;}}
 
 /* AWARDS TICKER */
 .awards-bar{background:var(--lime);padding:12px 0;overflow:hidden;white-space:nowrap;}
