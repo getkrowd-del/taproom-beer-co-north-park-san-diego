@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Wines | TapRoom Beer Co. – North Park San Diego</title>
+<meta name="description" content="Curated wine selection at TapRoom Beer Co. in North Park, San Diego. Red, white, rosé, and sparkling wines by the glass or bottle." />
+<meta property="og:title" content="Wines | TapRoom Beer Co. – North Park San Diego" />
+<meta property="og:description" content="Curated wine selection at TapRoom Beer Co. in North Park, San Diego. Red, white, rosé, and sparkling wines by the glass or bottle." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Wines | TapRoom Beer Co. – North Park San Diego" />
+<meta name="twitter:description" content="Curated wine selection at TapRoom Beer Co. in North Park, San Diego. Red, white, rosé, and sparkling wines by the glass or bottle." />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4274');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='yFWYPs';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/beer/" class="nav-active">Beer</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
+          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://taphouse.getkrowd.com/wines/" class="dm-active">Wines</a>
+          <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
+          <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a>
+        </div>
+      </div>
+      <a href="https://taphouse.getkrowd.com/menu/">Food</a>
+      <a href="https://taphouse.getkrowd.com/coffee/">Coffee</a>
+      <a href="https://taphouse.getkrowd.com/brunch/">Brunch</a>
+      <div class="dropdown">
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+        <div class="dropdown-menu">
+          <a href="https://taphouse.getkrowd.com/contact/">Contact Us</a>
+          <a href="https://taphouse.getkrowd.com/employment/">Employment</a>
+          <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375@view=egift" target="_blank">Gift Cards</a>
+          <a href="https://taphouse.getkrowd.com/fundraisers/">Fundraisers</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-logo">
+      <a href="https://taphouse.getkrowd.com/"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+    </div>
+    <div class="nav-right">
+      <a href="https://www.oftendining.com/app/taproombeerco/#@view=reservation" target="_blank">Reservations</a>
+      <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a>
+      <a href="https://taphouse.getkrowd.com/our-story/">About</a>
+      <a href="https://www.sdtaproom.com/" target="_blank" class="pb-badge">PB LOCATION</a>
+      <a href="https://taproombeerco.oftendining.com#s:menu.php?store_id=11375" class="nav-cta">Order Online</a>
+    </div>
+    <a href="https://taphouse.getkrowd.com/"><img class="nav-mobile-logo" src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Curated by the Glass & Bottle</div>
+    <h1>Wine<br><span>List.</span></h1>
+    <p class="hero-sub">A curated selection of reds, whites, rosés, and sparkling wines to complement our 50 rotating taps. Something for every palate at TapRoom North Park.</p>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-filter="all" onclick="filterWines('all')">🍷 All</button>
+    <button class="filter-btn" data-filter="red" onclick="filterWines('red')">🍷 Red</button>
+    <button class="filter-btn" data-filter="white" onclick="filterWines('white')">🥂 White</button>
+    <button class="filter-btn" data-filter="rose" onclick="filterWines('rose')">🌸 Rosé</button>
+    <button class="filter-btn" data-filter="sparkling" onclick="filterWines('sparkling')">✨ Sparkling</button>
+  </div>
+</div>
+
+<section class="wine-section">
+  <div class="wine-grid" id="wineGrid">
+    <div class="wine-loading">
+      <div class="spinner"></div>
+      <p>Loading wine list…</p>
+    </div>
+  </div>
+</section>
+
+<section class="beer-cta">
+  <div class="beer-cta-text">
+    <h2>50+ Taps<br><span style="color:var(--lime)">Also Pouring.</span></h2>
+    <p>Not a wine night? We've got 50 rotating taps of award-winning craft beer, guest taps, cocktails, and ciders. Something for everyone at TapRoom.</p>
+  </div>
+  <div class="beer-cta-btns">
+    <a href="https://taphouse.getkrowd.com/beer/" class="btn-wine">View Beer List</a>
+    <a href="https://taphouse.getkrowd.com/menu/" class="btn-outline">View Food Menu</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><img src="https://images.squarespace-cdn.com/content/v1/64a642fd02fcf20816ef09e6/578be719-da62-4c3a-8228-e7cc2ebace67/taproombeercologo.png?format=300w" alt="TapRoom Beer Co"></div>
+      <p class="footer-tagline">Local. Independent.<br>Brewery & Eatery.<br>North Park, San Diego.</p>
+    </div>
+    <div>
+      <div class="footer-h">North Park</div>
+      <div class="footer-info">2000 El Cajon Blvd<br>San Diego, CA 92104<br><a href="tel:+16195397738">(619) 539-7738</a><br>Mon–Fri: 11am–11pm<br>Sat & Sun: 10am–11pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Pacific Beach</div>
+      <div class="footer-info">1269 Garnet Ave<br>San Diego, CA 92109<br><a href="tel:+18582741010">(858) 274-1010</a><br>Mon–Thu: 10:30am–9:30pm<br>Fri & Sat: 10am–10pm<br>Sun: 10am–9:30pm</div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <div class="footer-info">
+        <a href="https://taphouse.getkrowd.com/beer/">Beer List</a><br>
+        <a href="https://taphouse.getkrowd.com/wines/">Wines</a><br>
+        <a href="https://taphouse.getkrowd.com/menu/">Food Menu</a><br>
+        <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a><br>
+        <a href="https://taphouse.getkrowd.com/private-events/">Private Events</a><br>
+        <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TapRoom Beer Company · San Diego, CA · All Rights Reserved</p>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/taproomnp/" target="_blank">FB</a>
+      <a href="https://www.instagram.com/taproombeerco/" target="_blank">IG</a>
+    </div>
+  </div>
+</footer>
+
+<div id="tr-chat-wrapper">
+  <div id="tr-chat-popout">
+    <span id="tr-popout-close" onclick="dismissPopout()">✕</span>
+    <p>🍷 <strong>Wine & Beer!</strong> Ask me what pairs best with your meal tonight.</p>
+  </div>
+  <div id="tr-chat-bubble" onclick="toggleChat()" title="Chat with TapRoom!">
+    <img src="https://krowdimg.b-cdn.net/taproom-chatboticon.png" alt="TapRoom Chat">
+  </div>
+</div>
+
+<script>
+/* ── Static wine list from Squarespace (always-accurate fallback) ── */
+var STATIC_WINES = [
+  {name:"Banshee",varietal:"Cabernet Sauvignon",region:"Sonoma",type:"red",description:"Juicy red and black fruit, dark chocolate, espresso bean, soft tannins.",price:"12 / 44"},
+  {name:"Rodney Strong",varietal:"Pinot Noir",region:"Russian River",type:"red",description:"Toasty vanilla from French oak & silky texture w/ rose petal & red cherry flavor.",price:"12 / 44"},
+  {name:"CK Mondavi",varietal:"Red Blend",region:"California",type:"red",description:"Lemon, green apple, pear, toasted wood.",price:"10 / 36"},
+  {name:"Simi",varietal:"Chardonnay",region:"California",type:"white",description:"Flavors of strawberry cream, lime blossom, watermelon and tart cherry.",price:"10 / 38"},
+  {name:"Dashwood",varietal:"Sauvignon Blanc",region:"New Zealand",type:"white",description:"Raspberry, citrus nose, with fruity flavors on the palate.",price:""},
+  {name:"Listel",varietal:"Rosé",region:"France",type:"rose",description:"Raspberry, citrus nose, with fruity flavors on the palate.",price:"10 / 38"},
+  {name:"Two Shepherds",varietal:"'22 Mélange",region:"Windsor",type:"red",description:"Light, airy, red berry, cherry. 60% Counoise, 20% Carignan, 20% Grenache.",price:"11 / 40"},
+  {name:"Gambino",varietal:"Brut",region:"Italy",type:"sparkling",description:"Aromas of lemon, grapefruit, yellow citrus.",price:"8 / 28"},
+  {name:"Mionetto",varietal:"Prosecco",region:"Italy",type:"sparkling",description:"Golden apples, pear, honey.",price:"10 / 38"}
+];
+
+function tagWine(w) {
+  var t = (w.type||w.category||w.style||w.varietal||'').toLowerCase();
+  var n = (w.name||'').toLowerCase();
+  var combined = t + ' ' + n;
+  if (/prosecco|sparkling|brut|champagne|cava|crémant|pétillant/.test(combined)) return 'sparkling';
+  if (/rosé|rose|rosato|blush/.test(combined)) return 'rose';
+  if (/chardonnay|sauvignon blanc|pinot grigio|pinot gris|riesling|white|albariño|viognier|gewurz/.test(combined)) return 'white';
+  if (/cabernet|pinot noir|merlot|syrah|shiraz|malbec|red blend|mélange|grenache|zinfandel|tempranillo|sangiovese/.test(combined)) return 'red';
+  return 'red'; // default
+}
+
+function renderWines(wines) {
+  /* Try to filter to wine-only from API — keep items where type/category contains "wine" */
+  var wineItems = wines.filter(function(w){
+    var cat = (w.category||w.type||w.style||'').toLowerCase();
+    return /wine|wines|red wine|white wine|rosé|rose|sparkling|prosecco|chardonnay|pinot|cabernet|sauvignon|merlot|riesling/.test(cat + ' ' + (w.name||'').toLowerCase());
+  });
+
+  /* If API returned nothing wine-like, use static */
+  if (!wineItems.length) wineItems = STATIC_WINES;
+
+  var grid = document.getElementById('wineGrid');
+  var html = '';
+  wineItems.forEach(function(w) {
+    var filter = tagWine(w);
+    var name      = w.name || '';
+    var varietal  = w.varietal || w.style || w.type || w.category || '';
+    var region    = w.region || w.origin || '';
+    var desc      = w.description || '';
+    var price     = w.price || w.pricing || '';
+
+    html += '<div class="wine-card" data-filter="'+filter+'">';
+    if (varietal) html += '<div class="wc-type">'+varietal+'</div>';
+    html += '<div class="wc-name">'+name+'</div>';
+    if (region) html += '<div class="wc-region">'+region+'</div>';
+    if (desc) html += '<p class="wc-desc">'+desc+'</p>';
+    html += '<div class="wc-footer">';
+    if (price) html += '<div class="wc-price">'+price+'</div>';
+    html += '</div></div>';
+  });
+  grid.innerHTML = html || '<div class="wine-loading"><p>Ask your bartender what we\'re pouring tonight.</p></div>';
+}
+
+function filterWines(filter) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.filter===filter); });
+  document.querySelectorAll('.wine-card').forEach(function(c){
+    c.style.display = (filter==='all' || c.dataset.filter===filter) ? '' : 'none';
+  });
+}
+
+/* ── Fetch beer API and filter to wine-category items ── */
+var KROWD_BEER_URL = 'https://api.getkrowd.com/v3/beer/index.cfm?companyId=1110&apiKey=krwd_fd6a9bdbc7c6adb43d3f6f1ba812c4a2365f9ea520de24f81c3969e91ac';
+
+fetch(KROWD_BEER_URL)
+  .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(data){
+    var items = Array.isArray(data) ? data : (data.beers||data.items||data.data||[]);
+    renderWines(items);
+  })
+  .catch(function(){
+    renderWines(STATIC_WINES);
+  });
+
+/* ── Chat ── */
+window.PayMeGPTConfig={widgetId:'64168788',primaryColor:'#c5e600',position:'bottom-right',autoOpen:false,hideLauncher:true};
+var chatOpen=false,dismissed=false;
+function dismissPopout(){var p=document.getElementById('tr-chat-popout');p.classList.add('hide');setTimeout(function(){p.style.display='none';},250);dismissed=true;}
+function toggleChat(){if(!dismissed)dismissPopout();if(window.PayMeGPT){chatOpen?(window.PayMeGPT.close(),chatOpen=false):(window.PayMeGPT.open(),chatOpen=true);}}
+function nukeDefault(){document.querySelectorAll('body > div').forEach(function(el){if(el.id==='tr-chat-wrapper')return;var s=window.getComputedStyle(el);var inline=el.getAttribute('style')||'';if(s.position==='fixed'||inline.includes('fixed')){var rect=el.getBoundingClientRect();if(rect.width<100&&rect.height<100&&rect.width>0){var bg=s.backgroundColor||'';var br=s.borderRadius||'';if(br.includes('50%')||bg.includes('197, 230')||bg.includes('c5e6')||inline.includes('border-radius: 50%')||inline.includes('border-radius:50%')){el.style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;';}}}});}
+nukeDefault();setInterval(nukeDefault,150);
+new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
+</script>
+<script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+</body>
+</html>
