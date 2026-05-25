@@ -19,6 +19,7 @@
 <meta name="twitter:description" content="Discover the story of TapRoom Beer Co. Founded by brothers Kevin and Kyle Conover. World-class neighborhood brewery &amp; restaurant in the heart of North Park, San Diego since 2006." />
 <!-- End SEO Meta Tags -->
 
+
 <script data-field-replace>
 (function(){
   var params=new URLSearchParams(window.location.search);
@@ -177,9 +178,10 @@
     if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
     if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
     var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
     return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
     }).then(function(r){return r.json();}).then(function(d){
       if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
       else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
@@ -212,7 +214,7 @@
         <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
         <div class="dropdown-menu">
           <a href="https://taphouse.getkrowd.com/beer/">Beer</a>
-          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://taphouse.getkrowd.com/beer/" target="_blank">Guest Beer, Cocktails, Cider</a>
           <a href="https://taphouse.getkrowd.com/wines/">Wines</a>
           <a href="https://taphouse.getkrowd.com/kegs/">Kegs</a>
           <a href="https://taphouse.getkrowd.com/partners/">Find Our Beer</a>
@@ -251,7 +253,7 @@
 <div class="mobile-drawer" id="mobileDrawer">
   <span class="mob-section-label">🍺 Beer</span>
   <a href="https://taphouse.getkrowd.com/beer/" class="mob-link">Beer List</a>
-  <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank" class="mob-sub-link">Guest Beer, Cocktails & Cider ↗</a>
+  <a href="https://taphouse.getkrowd.com/beer/" target="_blank" class="mob-sub-link">Guest Beer, Cocktails & Cider ↗</a>
   <a href="https://taphouse.getkrowd.com/wines/" class="mob-sub-link">Wines</a>
   <a href="https://taphouse.getkrowd.com/kegs/" class="mob-sub-link">Kegs</a>
   <a href="https://taphouse.getkrowd.com/partners/" class="mob-sub-link">Find Our Beer</a>
@@ -432,5 +434,6 @@ nukeDefault();setInterval(nukeDefault,150);
 new MutationObserver(function(){nukeDefault();}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','id']});
 </script>
 <script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+  <script src="script.js"></script>
 </body>
 </html>
