@@ -15,6 +15,7 @@
 <meta name="twitter:title" content="Employment | TapRoom Beer Co. – North Park San Diego" />
 <!-- End SEO Meta Tags -->
 
+
 <script data-field-replace>
 (function(){
   var params=new URLSearchParams(window.location.search);
@@ -173,9 +174,10 @@
     if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
     if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
     var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
     return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
     }).then(function(r){return r.json();}).then(function(d){
       if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
       else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
@@ -205,18 +207,18 @@
   <div class="nav-inner">
     <div class="nav-left">
       <div class="dropdown">
-        <a href="https://www.taproombeerco.com/beer">Beer</a>
+        <a href="https://taphouse.getkrowd.com/beer">Beer</a>
         <div class="dropdown-menu">
-          <a href="https://www.taproombeerco.com/beer">Beer</a>
-          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
-          <a href="https://www.taproombeerco.com/wines">Wines</a>
-          <a href="https://www.taproombeerco.com/kegs">Kegs</a>
-          <a href="https://www.taproombeerco.com/partners">Find Our Beer</a>
+          <a href="https://taphouse.getkrowd.com/beer">Beer</a>
+          <a href="https://taphouse.getkrowd.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://taphouse.getkrowd.com/wines">Wines</a>
+          <a href="https://taphouse.getkrowd.com/kegs">Kegs</a>
+          <a href="https://taphouse.getkrowd.com/partners">Find Our Beer</a>
         </div>
       </div>
-      <a href="https://www.taproombeerco.com/menu">Food</a>
-      <a href="https://www.taproombeerco.com/coffee">Coffee</a>
-      <a href="https://www.taproombeerco.com/brunch">Brunch</a>
+      <a href="https://taphouse.getkrowd.com/menu">Food</a>
+      <a href="https://taphouse.getkrowd.com/coffee">Coffee</a>
+      <a href="https://taphouse.getkrowd.com/brunch">Brunch</a>
       <div class="dropdown">
         <a href="https://taphouse.getkrowd.com/contact/">Contact</a>
         <div class="dropdown-menu">
@@ -413,5 +415,6 @@ function toggleDrawer(){var d=document.getElementById('mobileDrawer');var h=docu
 document.addEventListener('click',function(e){var d=document.getElementById('mobileDrawer');var h=document.getElementById('hamburger');if(d&&d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');document.body.style.overflow='';}});
 </script>
 <script src="https://paymegpt.com/widget.js" data-widget="64168788" async></script>
+  <script src="script.js"></script>
 </body>
 </html>
