@@ -174,9 +174,10 @@
     if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
     if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
     var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
     return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
     }).then(function(r){return r.json();}).then(function(d){
       if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
       else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
@@ -208,7 +209,7 @@
         <a href="https://www.taproombeerco.com/beer">Beer</a>
         <div class="dropdown-menu">
           <a href="https://www.taproombeerco.com/beer">Beer</a>
-          <a href="https://www.taproombeerco.com/s/BEER-NP-Back-4.pdf" target="_blank">Guest Beer, Cocktails, Cider</a>
+          <a href="https://www.taproombeerco.com/beer" >Guest Beer, Cocktails, Cider</a>
           <a href="https://www.taproombeerco.com/wines">Wines</a>
           <a href="https://www.taproombeerco.com/kegs">Kegs</a>
           <a href="https://www.taproombeerco.com/partners">Find Our Beer</a>
